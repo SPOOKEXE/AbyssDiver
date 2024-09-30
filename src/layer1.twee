@@ -95,16 +95,14 @@ What do you want to do while you're here?<br><br>
 	<div class="category-header">Organization</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Use Items and Relics">
-		Items and Relics
+		<span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span> Items and Relics
 		</button>
 	</div>
 	<<if $hiredCompanions.length > 0 || setup.haveSmartphoneAI>>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Party overview">
-		Your Party <<CheckParty>>
+		<span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span> Your Party <<CheckParty>>
 		</button>
 	</div>
 	<</if>>
@@ -115,21 +113,18 @@ What do you want to do while you're here?<br><br>
 	<div class="category-header">Layer Preparations</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Threats">
-		Threats
+		<span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span> Threats
 		</button>
 	</div>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Forage">
-		Foraging
+		<span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span> Foraging
 		</button>
 	</div>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/surfacehabitation.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Habitation">
-		Habitation
+		<span class="icon">[img[setup.ImagePath+'Icons/surfacehabitation.png']]</span> Habitation
 		</button>
 	</div>
 	</div>
@@ -139,15 +134,13 @@ What do you want to do while you're here?<br><br>
 	<div class="category-header">Curses and Relics</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span>
 		<button class="dark-btn obsidian option-button text-center" data-passage="Layer1 Curses">
-		Curses
+		<span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span> Curses
 		</button>
 	</div>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span>
 		<button class="dark-btn obsidian option-button text-center" data-passage="Layer1 Relics">
-		Relics
+		<span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span> Relics
 		</button>
 	</div>
 	</div>
@@ -157,21 +150,18 @@ What do you want to do while you're here?<br><br>
 	<div class="category-header">Places</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Wonders">
-		Wonders
+		<span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span> Wonders
 		</button>
 	</div>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Camp">
-		Camp
+		<span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span> Camp
 		</button>
 	</div>
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Settlement">
-		Settlements
+		<span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span> Settlements
 		</button>
 	</div>
 	</div>
@@ -181,17 +171,15 @@ What do you want to do while you're here?<br><br>
 	<div class="category-header">Travel</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Ascend 1">
-		Ascend
+		<span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span> Ascend
 		</button>
 	</div>
 	</div>
 	<div class="options-grid">
 	<div class="menu-item">
-		<span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span>
 		<button class="dark-btn obsidian text-center" data-passage="Layer1 Exit1">
-		Descend
+		<span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span> Descend
 		</button>
 	</div>
 	</div>
@@ -503,16 +491,18 @@ The Relics you have found with Cherry's Chaotic Luck are $relics[$temp1].name an
 
 The Curses you have obtained with Cherry's Chaotic Luck are _curse1.name and _curse2.name for a gain of _curse1.corr and _curse2.corr corruption respectively.
 <<nobr>>
-<<set _hasdye = (_dyeCurse = _curse1 instanceof PermaDye) || (_dyeCurse = _curse2 instanceof PermaDye)>>
+<<set _hasDye = ( _curse1 instanceof PermaDye) || (_curse2 instanceof PermaDye)>>
 <<if _hasDye>>
+	<<set _dyeCurse = (_curse1 instanceof PermaDye) ? _curse1 : _curse2>>
 	<br>What hair color do you prefer?<br>
 	<<textbox "_dyeCurse.hairColor" "turquoise">><br>
 <</if>>
-<<set _hasDH = (_DHCurse = _curse1 instanceof DizzyingHeights) || (_DHCurse = _curse2 instanceof DizzyingHeights)>>
+<<set _hasDH = (_curse1 instanceof DizzyingHeights) || ( _curse2 instanceof DizzyingHeights)>>
 <<if _hasDH>>
 	<<set $dizzyCount +=1>>
 	<<if $mc.heightDir === 0>>
 		<br>Would you like to increase or decrease your height?<br>
+		<<set _DHCurse = (_curse1 instanceof DizzyingHeights) ? _curse1 : _curse2>>
 		<<set _DHCurse.direction = -1>>
 		<<radiobutton "_DHCurse.direction" -1 checked>> Decrease<br>
 		<<radiobutton "_DHCurse.direction" 1 >> Increase<br>
@@ -1524,7 +1514,7 @@ Gasping for breath, she too falls, succumbing to her injuries.
 <button class="dark-btn obsidian" data-passage="Layer1 Hub">Continue on your journey</button>
 
 <<if setup.haveRope && !$hiredCompanions.some(c=>c.id === setup.companionIds.bandit)>>
-	<<link "Capture one of the bandits and bring them along" "Bandit Captured">>
+	<<LinkButton "Capture one of the bandits and bring them along" "Bandit Captured" "dark-btn obsidian">>
 		<<set $hiredCompanions.push($companionBandit)>>
 		<<set $escapeT = $time + 7 + random(0,7)>>
 		<<set $Bandit_LastT = $time>>
@@ -1532,10 +1522,10 @@ Gasping for breath, she too falls, succumbing to her injuries.
 		<<set $companionBandit.imageIcon = "Icons/banditIcon.png">>
 		<<set $companionBandit.affec = -20>>
 		<<set $companionBandit.carry = 0>>
-	<</link>>
+	<</LinkButton>>
 <</if>>
 <<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span>
-	<<link "Quench your blood thirst using one of the bandits" "Layer1 Bandits Won">>
+	<<LinkButton "Quench your blood thirst using one of the bandits" "Layer1 Bandits Won" "dark-btn obsidian">>
 		<<if $CotNBalance<-4>>
 			<<set $CotNBalance+=10>>
 			<<if $devouredRelics.some(c=> c.name === "Pulse Bloom")>>
@@ -1544,7 +1534,7 @@ Gasping for breath, she too falls, succumbing to her injuries.
 				<<include "Pulse Bloom Code">>
 			<</if>>
 		<</if>>
-	<</link>> 
+	<</LinkButton>> 
 <</if>><br><br>
 
 <<set $smaragdineThreatsDefeated.bandits = true>>\

@@ -108,16 +108,14 @@ What do you want to do while you're here?<br>
     <div class="category-header">Organization</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Use Items and Relics">
-          Items and Relics
+          <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span> Items and Relics
         </button>
       </div>
       <<if $hiredCompanions.length > 0>>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Party overview">
-          Your Party <<CheckParty>>
+          <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span> Your Party <<CheckParty>>
         </button>
       </div>
       <</if>>
@@ -127,15 +125,13 @@ What do you want to do while you're here?<br>
     <div class="category-header">Layer Preparations</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Threats">
-          Threats
+          <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span> Threats
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Forage">
-          Foraging
+          <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span> Foraging
         </button>
       </div>
     </div>
@@ -144,15 +140,13 @@ What do you want to do while you're here?<br>
     <div class="category-header">Curses and Relics</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Curses">
-          Curses
+          <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span> Curses
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Relics">
-          Relics
+          <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span> Relics
         </button>
       </div>
     </div>
@@ -161,21 +155,18 @@ What do you want to do while you're here?<br>
     <div class="category-header">Places</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Wonders">
-          Wonders
+          <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span> Wonders
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Camp">
-          Camp
+          <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span> Camp
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/layer4habitation.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Habitation">
-          Habitation
+          <span class="icon">[img[setup.ImagePath+'Icons/layer4habitation.png']]</span> Habitation
         </button>
       </div>
     </div>
@@ -184,17 +175,15 @@ What do you want to do while you're here?<br>
     <div class="category-header">Travel</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Ascend 1">
-          Ascend
+          <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span> Ascend
         </button>
       </div>
     </div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer4 Exit1">
-          Descend
+          <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span> Descend
         </button>
       </div>
     </div>
@@ -256,13 +245,13 @@ How would you like to use Cherry's chaotic luck ability?
 <p><<if $slingshot>>
 	<button class="dark-btn obsidian" data-passage="Layer4 Forage" data-setter="$mc.events.push(new HeightEvent("Flairabou Major", 3));$foodL4 += 1">Hunt and consume Flairabou once</button><br>
 <<elseif $items[13].count && $items[20].count >= Math.max(2 - $bullRed, 1)>>
-	[[Hunt and consume Flairabou once|Layer4 Forage][$mc.events.push(new HeightEvent("Flairabou Major", 3));$foodL4 += 1;$items[20].count -= Math.max(2 - $bullRed, 1)]]
+	[[Hunt and consume Flairabou once|Layer4 Forage][$mc.events.push(new HeightEventPercent("Flairabou Major", 1.8));$foodL4 += 1;$items[20].count -= Math.max(2 - $bullRed, 1)]]
 <</if>>
 <<if $abyssKnow>>
 	<<if $slingshot>>
 		<button class="dark-btn obsidian" data-passage="Layer4 Forage" data-setter="$mc.events.push(new HeightEvent("Flairabou Minor", 0.5));$foodL4 += 1">Hunt and consume carefully prepared Flairabou once</button><br>
 	<<elseif $items[13].count && $items[20].count >= Math.max(2 - $bullRed, 1)>>
-		[[Hunt and consume carefully prepared Flairabou once|Layer4 Forage][$mc.events.push(new HeightEvent("Flairabou Minor", 0.5));$foodL4 += 1;$items[20].count -= Math.max(2 - $bullRed, 1)]]
+		[[Hunt and consume carefully prepared Flairabou once|Layer4 Forage][$mc.events.push(new HeightEventPercent("Flairabou Minor", 0.3));$foodL4 += 1;$items[20].count -= Math.max(2 - $bullRed, 1)]]
 	<</if>>
 <</if>>
 <button class="dark-btn obsidian" data-passage="Layer4 Forage" data-setter="$algalSize += 1;$waterL4 += 1">Consume water from melted snow once</button></p>
@@ -995,14 +984,8 @@ Which Curse would you like to transfer to your willing companion? It can't be to
 				<<if _companion === $companionBandit>><<set _tempName = "Bandit">><</if>>
 				<<capture _companion _curse _tempName>>
 					&nbsp; _curse.name
-					<<link "Choose" "Layer4 Steady1a">>
-						<<set _companion.addCurse(_curse.copy())>>
-
-						<<set $corruption += Math.round(_curse.corr / 2)>>
-						/* The CYOA states that the cost counter is shared between shrines. */
-						<<set $dubloons -= ($skewedUsed * 5)>>
-						<<set $skewedUsed += 1>>
-					<</link>><br>
+					<button class="dark-btn obsidian" data-passage="Layer4 Steady1a" data-setter="_companion.addCurse(_curse.copy()), $corruption += Math.round(_curse.corr / 2), $dubloons -= ($skewedUsed * 5), $skewedUsed += 1">Choose</button>
+					/* The CYOA states that the cost counter is shared between shrines. */<br>
 				<</capture>>
 			<</if>>
 		<</for>>
@@ -1086,11 +1069,7 @@ You may choose one of them and be cursed with it for the usual corruption, or go
 <<nobr>>
 	<<for _constellation range setup.getCurseSets()>>
 		<<capture _constellation>>
-			<<link _constellation.name "Diver shrine inspect constellation">>
-				/* I really don't like that we have to set a global variable here, but there's no other way
-				 * to show this on a new page afaict. */
-				<<set $diverShrineSelectedCurse = _constellation.name>>
-			<</link>>
+			<button class="dark-btn obsidian" data-passage="Diver shrine inspect constellation" data-setter="$diverShrineSelectedCurse = _constellation.name">_constellation.name</button>
 			<br>
 		<</capture>>
 	<</for>>
@@ -1105,11 +1084,7 @@ You may choose one of them and be cursed with it for the usual corruption, or go
 <<nobr>>
 	<<for _constellation range setup.getUserCurseSets()>>
 		<<capture _constellation>>
-			<<link _constellation.name "Diver shrine inspect user constellation">>
-				/* I really don't like that we have to set a global variable here, but there's no other way
-				 * to show this on a new page afaict. */
-				<<set $diverShrineSelectedCurse = _constellation.name>>
-			<</link>>
+			<button class="dark-btn obsidian" data-passage="Diver shrine inspect user constellation" data-setter="$diverShrineSelectedCurse = _constellation.name">_constellation.name</button>
 			<br>
 		<</capture>>
 	<</for>>
@@ -1288,12 +1263,12 @@ Choose a subset of your current curses to form a new constellation:<br>
 	If you delete this website's data ("Clear cookies and site data" or similar buttons), they'll disappear too.<br>
 	In any of these cases, save the above code somewhere and import it again to restore the constellation.
 </div><br>
-<<link "Save">>
+<<LinkButton "Save" "Save" "dark-btn obsidian">>
 	<<set _constellation = new Constellation(_name, _curses, _description)>>
 	<<set setup.addUserCurseSet(_constellation)>>
 	<<set $('#diver-shrine-export-box').text(JSON.stringify(_constellation))>>
 	<<set $('#diver-shrine-confirm-diag').css({display: 'initial'})>>
-<</link>><br>
+<</LinkButton>><br>
 <button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
 
 :: Diver shrine import [layer4]
@@ -1317,7 +1292,7 @@ Use this code to share all your constellations:\
 Paste such a code here to import all of its constellations. Note that if you already have constellations with the same name, they will be overwritten.
 <input type="text" id="diver-shrine-bulk-import-field" />
 
-<<link "Import constellations">>
+<<LinkButton "Import constellations" "none" "dark-btn obsidian">>
 	<<set _constellations = JSON.tryParse($('#diver-shrine-bulk-import-field')[0].value)>>
 	<<if _constellations === false || !(Array.isArray(_constellations) && _constellations.every(c => c instanceof Constellation))>>
 		<<set alert('The code you provided is not a valid set of constellations. It could be a single constellation, in which case use the form below to import it.')>>
@@ -1330,7 +1305,7 @@ Paste such a code here to import all of its constellations. Note that if you alr
 		}>>
 		<<set $('#diver-shrine-bulk-import-field')[0].value = ''>>
 	<</if>>
-<</link>>
+<</LinkButton>>
 
 
 Import a single constellation's code here:
@@ -1338,7 +1313,7 @@ Import a single constellation's code here:
 Write a name here if you want to replace the constellation's name (e.g. to avoid a collision with an existing constellation):
 <input type="text" id="diver-shrine-import-single-name" />
 
-<<link "Import constellation">>
+<<LinkButton "Import constellation" "none" "dark-btn obsidian">>
 	<<set _name = $('#diver-shrine-import-single-name')[0].value>>
 	<<set _constellation = JSON.tryParse($('#diver-shrine-import-single-field')[0].value)>>
 	<<if !_constellation instanceof Constellation>>
@@ -1352,7 +1327,7 @@ Write a name here if you want to replace the constellation's name (e.g. to avoid
         <<set $('#diver-shrine-import-single-field')[0].value = ''>>
         <<set $('#diver-shrine-import-single-name')[0].value = ''>>
 	<</if>>
-<</link>>
+<</LinkButton>>
 
 <button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
 
@@ -1435,16 +1410,7 @@ The magic of the shrine wisps through the air menacingly as your victim struggle
 		<<if _companion === $companionBandit>><<set _tempName = "Bandit">><</if>>
 		<<capture _companion _i _tempName>>
 			<<set _choiceText = "Copy to " + _tempName>>
-			<<link _choiceText "Layer4 Steady Apply">>
-				<<set _companion.addCurse(_curse.copy())>>
-
-				<<set $corruption += Math.round(_curse.corr / 2)>>
-				/* The CYOA states that the cost counter is shared between shrines. */
-				<<set $dubloons -= ($skewedUsed * 5)>>
-				<<set $skewedUsed += 1>>
-
-				<<set $temp2 = _i>>
-			<</link>><br>
+			<button class="dark-btn obsidian" data-passage="Layer4 Steady Apply" data-setter="_companion.addCurse(_curse.copy()), $corruption += Math.round(_curse.corr / 2), $dubloons -= ($skewedUsed * 5), $skewedUsed += 1, $temp2 = _i">_choiceText</button><br>
 		<</capture>>
 	<</if>>
 <</for>>
@@ -2166,9 +2132,9 @@ How do you want to deal with the creature descending upon you?
 
 		A gentle, comforting warmth emanates from the Creepy Doll, beckoning you to embrace it and welcome its presence into your heart.<br><br>
 
-		<<link "Hug the doll tightly and close your eyes" $returnPassage>>
+		<<LinkButton "Hug the doll tightly and close your eyes" $returnPassage "dark-btn obsidian">>
 			<<dollTF>>
-		<</link>><br><br>
+		<</LinkButton>><br><br>
 	<<else>>
 		<<say $creepydoll>> Wouldn't you just rather play with just me? I can make all bad things go away if its just the two of us!<</say>><br><br>
 	<</if>>

@@ -1775,7 +1775,7 @@ Macro.add('sidebar-widget', {
                             </div>
                             <div class="spacer"></div>
                             <div class="number-wrapper">
-                                ${dehydrated <= 0 ? water : '<span class="alert2">Dehydrated for ' + dehydrated + ' days!</span>'}
+                                ${dehydrated <= 0 ? water : '<span class="alert2">-' + dehydrated + '</span>'}
                                 <span class="twine-sidebar-foraging-icon ${forageWater ? 'active' : ''}"></span>
                             </div>
                         </div>
@@ -1788,7 +1788,7 @@ Macro.add('sidebar-widget', {
                             </div>
                             <div class="spacer"></div>
                             <div class="number-wrapper">
-                                ${starving <= 0 ? food : '<span class="alert2">Starving for ' + starving + ' days!</span>'}
+                                ${starving <= 0 ? food : '<span class="alert2">-' + starving + '</span>'}
                                 <span class="twine-sidebar-foraging-icon ${forageFood ? 'active' : ''}"></span>
                             </div>
                         </div>
@@ -1807,22 +1807,22 @@ Macro.add('sidebar-widget', {
                         <div class="resource-item tooltip">
                             <div class="icon-text-wrapper">
                                 <div class="icon-wrapper">
-                                    <span class="sidebar-item"><img src="${setup.ImagePath}Icons/injury.png" alt="Injury"></span>
-                                </div>
-                                <div class="spacer"></div>
-                                <div class="number-wrapper">${State.variables.status.duration}</div>
-                            </div>
-                            <span class="tooltiptext">Injury Duration (days)</span>
-                        </div>
-                        <div class="resource-item tooltip">
-                            <div class="icon-text-wrapper">
-                                <div class="icon-wrapper">
-                                    <span class="sidebar-item"><img src="${setup.ImagePath}Icons/penalty.png" alt="Penalty"></span>
+                                    <span class="sidebar-item"><img src="${setup.ImagePath}Icons/injurybandage.png" alt="Penalty"></span>
                                 </div>
                                 <div class="spacer"></div>
                                 <div class="number-wrapper">${State.variables.status.penalty}</div>
                             </div>
                             <span class="tooltiptext">Injury Penalty</span>
+                        </div>
+                        <div class="resource-item tooltip">
+                            <div class="icon-text-wrapper">
+                                <div class="icon-wrapper">
+                                    <span class="sidebar-item"><img src="${setup.ImagePath}Icons/injurytimer.png" alt="Injury"></span>
+                                </div>
+                                <div class="spacer"></div>
+                                <div class="number-wrapper">${State.variables.status.duration}</div>
+                            </div>
+                            <span class="tooltiptext">Injury Duration (days)</span>
                         </div>
                     </div>
                 ` : ''}
@@ -1974,6 +1974,33 @@ window.goBackToPassage = function(passageName) {
     alert("Passage not found in history: " + passageName);
 };
 
+Macro.add('LinkButton', {
+    tags: null,
+    handler() {
+        if (this.args.length < 2) {
+            return this.error('<<LinkButton>> macro requires at least 2 arguments: button text and passage name');
+        }
 
+        const $button = $('<button/>', {
+            class: 'link-button',
+            text: this.args[0],
+            click: (e) => {
+                e.preventDefault();
+                // Execute the content between the tags
+                Wikifier.wikifyEval(this.payload[0].contents);
+                // Navigate to the specified passage
+                Engine.play(this.args[1]);
+            }
+        });
+
+        // Add any additional classes if provided
+        if (this.args[2]) {
+            $button.addClass(this.args[2]);
+        }
+
+        // Output the button
+        $button.appendTo(this.output);
+    }
+});
 
 

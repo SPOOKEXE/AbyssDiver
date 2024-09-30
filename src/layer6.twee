@@ -73,16 +73,14 @@ What do you want to do while you're here?<br>
    <div class="category-header">Organization</div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Use Items and Relics">
-         Items and Relics
+         <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span> Items and Relics
        </button>
      </div>
      <<if $hiredCompanions.length > 0>>
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Party overview">
-         Your Party <<CheckParty>>
+         <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span> Your Party <<CheckParty>>
        </button>
      </div>
      <</if>>
@@ -92,21 +90,18 @@ What do you want to do while you're here?<br>
    <div class="category-header">Layer Preparations</div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Threats">
-         Threats
+         <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span> Threats
        </button>
      </div>
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Forage">
-         Foraging
+         <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span> Foraging
        </button>
      </div>
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/layer6habitation.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Habitation">
-         Habitation
+         <span class="icon">[img[setup.ImagePath+'Icons/layer6habitation.png']]</span> Habitation
        </button>
      </div>
    </div>
@@ -115,15 +110,13 @@ What do you want to do while you're here?<br>
    <div class="category-header">Curses and Relics</div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span>
        <button class="dark-btn obsidian option-button text-center" data-passage="Layer6 Curses">
-         Curses
+         <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span> Curses
        </button>
      </div>
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span>
        <button class="dark-btn obsidian option-button text-center" data-passage="Layer6 Relics">
-         Relics
+         <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span> Relics
        </button>
      </div>
    </div>
@@ -132,15 +125,13 @@ What do you want to do while you're here?<br>
    <div class="category-header">Places</div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Wonders">
-         Wonders
+         <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span> Wonders
        </button>
      </div>
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Camp">
-         Camp
+         <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span> Camp
        </button>
      </div>
    </div>
@@ -149,17 +140,15 @@ What do you want to do while you're here?<br>
    <div class="category-header">Travel</div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Ascend 1">
-         Ascend
+         <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span> Ascend
        </button>
      </div>
    </div>
    <div class="options-grid">
      <div class="menu-item">
-       <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span>
        <button class="dark-btn obsidian text-center" data-passage="Layer6 Exit1">
-         Descend
+         <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span> Descend
        </button>
      </div>
    </div>
@@ -1119,7 +1108,7 @@ The Relics you have found with Cherry's Chaotic Luck are $relics[$temp1].name an
 
 	You have a single chance to bend fate using the mystical luck of the Devil's Own. Cherry's fate is strong, so you only get 1 chance to use this effect on your entire adventure. Would you like to reroll Cherry's Chaotic Luck?
 
-	<<link "Reroll with Devil's Own" "Layer6 Cherry Relic">>
+	<<LinkButton "Reroll with Devil's Own" "Layer6 Cherry Relic" "dark-btn obsidian">>
 		<<set $ownedRelics.deleteAt($ownedRelics.length-1)>>
 		<<set $corruption += Math.floor(Math.max(($relics[$temp1].corr / 2) - $corRed, 0))>>
 		
@@ -1127,7 +1116,7 @@ The Relics you have found with Cherry's Chaotic Luck are $relics[$temp1].name an
 		<<set $corruption += Math.floor(Math.max(($relics[$temp2].corr / 2) - $corRed, 0))>>
 
 		<<set setup.loseRelic("Devil's Own")>>
-	<</link>>
+	<</LinkButton>>
 
 <</if>>
 
@@ -1161,14 +1150,14 @@ The Curses you have obtained with Cherry's Chaotic Luck are _curse1.name and _cu
 
 	You have a single chance to bend fate using the mystical luck of the Devil's Own. Cherry's fate is strong, so you only get 1 chance to use this effect on your entire adventure. Would you like to reroll Cherry's Chaotic Luck?
 
-	<<link "Reroll with Devil's Own" "Layer6 Cherry Curse">>
+	<<LinkButton "Reroll with Devil's Own" "Layer6 Cherry Curse" "dark-btn obsidian">>
 		<<set $corruption -= _curse1.corr>>
 		<<RemoveCurse _curse1>>
 		
 		<<set $corruption -= _curse2.corr>>
 		<<RemoveCurse _curse2>>
 		<<set setup.loseRelic("Devil's Own")>>
-	<</link>>
+<</LinkButton>>
 
 <</if>>
 
@@ -1194,14 +1183,14 @@ With Cherry's Chaotic Luck you have found the Relic $relics[$temp1].name for a c
 
 	You have a single chance to bend fate using the mystical luck of the Devil's Own. Cherry's fate is strong, so you only get 1 chance to use this effect on your entire adventure. Would you like to reroll Cherry's Chaotic Luck?
 
-	<<link "Reroll with Devil's Own" "Layer6 Cherry Mix">>
+	<<LinkButton "Reroll with Devil's Own" "Layer6 Cherry Mix" "dark-btn obsidian">>
 		<<set $ownedRelics.deleteAt($ownedRelics.length-1)>>
 		<<set $corruption += Math.floor(Math.max(($relics[$temp1].corr / 2) - $corRed, 0))>>
 		
 		<<set $corruption -= _curse.corr>>
 		<<RemoveCurse _curse>>
 		<<set setup.loseRelic("Devil's Own")>>
-	<</link>>
+<</LinkButton>>
 
 <</if>>
 
@@ -1378,11 +1367,11 @@ Your Brave Vector slingshot can be used like a gun, but it will take many shots 
 <</if>>
 <<if $items[14].count > 0>>
 Relying on your own swordplay will allow you to put up a minimum amount of resistance and tire it out a bit, leaving incapacitated for 10 days straight.<br>
-	<<link "Fight it off with a sword" "Layer6 Threat1 2">>
-		<<set $tentacleFucked = 10>>
-		<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
-		<<PregCheckTentacle $mc>>
-	<</link>><br>
+	<<LinkButton "Fight it off with a sword" "Layer6 Threat1 2" "dark-btn obsidian">>
+    <<set $tentacleFucked = 10>>
+    <<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
+    <<PregCheckTentacle $mc>>
+	<</LinkButton>><br>
 	<<if setup.haveHealing>>
 
 		<<if $devouredRelics.some(r => r.name === 'Lifespanner')>>
@@ -1391,22 +1380,22 @@ Relying on your own swordplay will allow you to put up a minimum amount of resis
 			<<set _text = "Fight it off with a sword and cure the status using a medkit or other healing item">>
 		<</if>>
 
-		<<link _text $returnPassage>>
+		<<LinkButton _text $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
 			<<if !($ownedRelics.some(r => r.name === 'Lifespanner') || $devouredRelics.some(r => r.name === 'Lifespanner'))>>
 				<<set $items[4].count -= 1>>
 			<</if>>
 			<<PregCheckTentacle $mc>>
-		<</link>><br>
+		<</LinkButton>><br>
 	<</if>>	
 <</if>>
 <<if $ownedRelics.some(e => e.name === "Sunbeam")>>
 Using the power of Sunbeam to fight it yourself is better than using a sword, but only marginally so. It will leave you tentacle fucked for 9 days after the battle.<br>
-	<<link "Fight it off with Sunbeam" "Layer6 Threat1 2">>
+	<<LinkButton "Fight it off with Sunbeam" "Layer6 Threat1 2" "dark-btn obsidian">>
 		<<set $tentacleFucked = 9>>
 		<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
 		<<PregCheckTentacle $mc>>
-	<</link>><br>
+	<</LinkButton>><br>
 	<<if setup.haveHealing>>
 
 		<<if $devouredRelics.some(r => r.name === 'Lifespanner')>>
@@ -1415,23 +1404,23 @@ Using the power of Sunbeam to fight it yourself is better than using a sword, bu
 			<<set _text = "Fight it off with Sunbeam and cure the status using a medkit or other healing item">>
 		<</if>>
 
-		<<link _text $returnPassage>>
+		<<LinkButton _text $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
 			<<if !($ownedRelics.some(r => r.name === 'Lifespanner') || $devouredRelics.some(r => r.name === 'Lifespanner'))>>
 				<<set $items[4].count -= 1>>
 			<</if>>
 			<<PregCheckTentacle $mc>>
-		<</link>><br>
+		<</LinkButton>><br>
 	<</if>>	
 <</if>>
 <<if $items[14].count > 0 && $hiredCompanions.some(e => e.id === setup.companionIds.khemia)>>
 	Khemia has enough expertise with a blade to be able to fight it off, but even he wouldn't be able to get away safely, becoming immobilized for 2 days if you let him fight for you with a sword.<br>
-	<<link "Have Khemia fight it off with a sword" "Layer6 Threat1 2">>
+	<<LinkButton "Have Khemia fight it off with a sword" "Layer6 Threat1 2" "dark-btn obsidian">>
 		<<set $tentacleFucked = 2>>
 		<<set $smaragdineThreatsSubmitted.tentacleGreater = true; $smaragdineThreatsDefeated.tentacleGreater = true>>
 		<<set $khemiaFucked = 1 >>
 		<<PregCheckTentacle $companionKhemia>>
-	<</link>><br>
+	<</LinkButton>><br>
 	<<if setup.haveHealing >>
 
 		<<if $devouredRelics.some(r => r.name === 'Lifespanner')>>
@@ -1440,23 +1429,23 @@ Using the power of Sunbeam to fight it yourself is better than using a sword, bu
 			<<set _text = "Have Khemia fight it off with a sword and use a medkit or other healing item to cure his status">>
 		<</if>>
 		
-		<<link  _text $returnPassage>>
+		<<LinkButton  _text $returnPassage "dark-btn obsidian">>
 			<<if !($ownedRelics.some(r => r.name === 'Lifespanner') || $devouredRelics.some(r => r.name === 'Lifespanner'))>>
 				<<set $items[4].count -= 1>>
 			<</if>>
 			<<set $smaragdineThreatsSubmitted.tentacleGreater = true; $smaragdineThreatsDefeated.tentacleGreater = true>>
 			<<PregCheckTentacle $companionKhemia>>
-		<</link>><br>	
+		<</LinkButton>><br>	
 	<</if>>
 <</if>>
 <<if $items[14].count > 0 && $hiredCompanions.some(e => e.id === setup.companionIds.khemia)>>
 	If you equip Khemia with Sunbeam, he'll be more effective, but even then he'd be left incapacitated from the various numbing agents for a full day.<br>
-	<<link "Have Khemia fight it off with Sunbeam" "Layer6 Threat1 2">>
+	<<LinkButton "Have Khemia fight it off with Sunbeam" "Layer6 Threat1 2" "dark-btn obsidian">>
 		<<set $tentacleFucked = 1>>
 		<<set $smaragdineThreatsSubmitted.tentacleGreater = true; $smaragdineThreatsDefeated.tentacleGreater = true>>
 		<<set $khemiaFucked = 1 >>
 		<<PregCheckTentacle $companionKhemia>>
-	<</link>><br>	
+	<</LinkButton>><br>	
 	<<if setup.haveHealing>>
 
 		<<if $devouredRelics.some(r => r.name === 'Lifespanner')>>
@@ -1465,13 +1454,13 @@ Using the power of Sunbeam to fight it yourself is better than using a sword, bu
 			<<set _text = "Have Khemia fight it off with Sunbeam and use a medkit or other healing item to cure his status">>
 		<</if>>
 
-		<<link _text $returnPassage>>
+		<<LinkButton _text $returnPassage "dark-btn obsidian">>
 			<<if !($ownedRelics.some(r => r.name === 'Lifespanner') || $devouredRelics.some(r => r.name === 'Lifespanner'))>>
 				<<set $items[4].count -= 1>>
 			<</if>>
 			<<set $smaragdineThreatsSubmitted.tentacleGreater = true; $smaragdineThreatsDefeated.tentacleGreater = true>>
 			<<PregCheckTentacle $companionKhemia>>
-		<</link>><br>	
+		<</LinkButton>><br>	
 	<</if>>
 <</if>>
 <<if $joyousSword === 1 && $hiredCompanions.some(e => e.id === setup.companionIds.khemia)>>
@@ -1479,7 +1468,7 @@ Using the power of Sunbeam to fight it yourself is better than using a sword, bu
 	<button class="dark-btn obsidian" data-passage="$returnPassage" data-setter="$smaragdineThreatsDefeated.tentacleGreater = true">Have Khemia fight it off with Joyous Sunder</button><br><br>
 <</if>>
 If you allow it to overpower you, you <<if $hiredCompanions.length > 0 >>and your party <</if>>will be completely ravaged by the enormous beast. This will be incredibly pleasurable at the time, with powerful numbing agents making sure you don't feel any pain during the process, and only feel the pleasure. But after it's over, you'll be in a sorry state, being left completely incapacitated for a full 12 days unless you use a medkit. This is especially dangerous since it leaves you only a few days left until your next encounter with one of the beasts.<br>
-<<link "Allow it to overpower you" "Layer6 Threat1 2">>
+<<LinkButton "Allow it to overpower you" "Layer6 Threat1 2" "dark-btn obsidian">>
 	<<set $tentacleFucked = 12>>
 	<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
 	<<PregCheckTentacle $mc>>
@@ -1488,7 +1477,7 @@ If you allow it to overpower you, you <<if $hiredCompanions.length > 0 >>and you
 	<<if _sdCurse !== undefined && _sdCurse.fluidType !== "vaginal fluids" >>
 		<<set $SemenDemonBalance+=20>>
 	<</if>>
-<</link>><br><br>
+<</LinkButton>><br><br>
 
 <<if $mechaBoarded>>
 	You can almost imagine your Starlit Conquest humming in satisfaction, as if it knows it was built to fight these sort of monstrosities and revels in the fact that it can finally do so. <br>
@@ -1503,7 +1492,7 @@ If you allow it to overpower you, you <<if $hiredCompanions.length > 0 >>and you
 		<<set _text = "Allow it to overpower you and use a medkit or other healing item to cure the status">>
 	<</if>>
 
-	<<link _text $returnPassage>>
+	<<LinkButton _text $returnPassage "dark-btn obsidian">>
 		<<set $smaragdineThreatsSubmitted.tentacleGreater = true>>
 			<<if !($ownedRelics.some(r => r.name === 'Lifespanner') || $devouredRelics.some(r => r.name === 'Lifespanner'))>>
 			<<set $items[4].count -= 1>>
@@ -1514,7 +1503,7 @@ If you allow it to overpower you, you <<if $hiredCompanions.length > 0 >>and you
 			<<set $SemenDemonBalance+=20>>
 		<</if>>
 	<<MonsterPregCheckParty>>
-	<</link>><br>
+	<</LinkButton>><br>
 <</if>><br>
 
 <<if $ownedRelics.some(e => e.name === "Creepy Doll")>>
@@ -1524,10 +1513,10 @@ If you allow it to overpower you, you <<if $hiredCompanions.length > 0 >>and you
 
 		An incredibly intense, yet still pleasant, warmth radiates from the Creepy Doll, ushering you to hold it close and invite it into your heart.<br><br>
 
-		<<link "Hold the doll tight and shut your eyes for a long time" $returnPassage>>
+		<<LinkButton "Hold the doll tight and shut your eyes for a long time" $returnPassage "dark-btn obsidian">>
 			<<dollTF>>
 			<<dollTF>>
-		<</link>><br><br>
+		<</LinkButton>><br><br>
 	<<else>>
 		<<say $creepydoll>> Wouldn't you just rather play with just me? I can make all bad things go away, even this big one, if its just the two of us!<</say>><br><br>
 	<</if>>
@@ -1612,7 +1601,7 @@ The dragon takes care to avoid Khemia at close range, so he won't have a chance 
 <</if>>
 <<if $ownedRelics.some(e => e.name === "Sunbeam") && $hiredCompanions.some(e => e.id === setup.companionIds.khemia) && $khemiaDragon === 0>>
 	Khemia has enough expertise with a blade that if you give him the Sunbeam Relic he will be able to fight it off one time, but even he would be moderately burned by fighting it, increasing all travel times by 2 until you used a medkit on him. You will be able to get its hoard of 50 dubloons when you kill it though.<br>
-	<<link "Have Khemia fight it off with Sunbeam" $returnPassage>>
+	<<LinkButton "Have Khemia fight it off with Sunbeam" $returnPassage "dark-btn obsidian">>
 		<<set $status.duration += 99, $status.penalty += 2, $khemiaDragon === 1, $dubloons += 50, $dragonKill += 1, $smaragdineThreatsSubmitted.dragon = true>>
 		<<if $CotNBalance<-4>>
 			<<set $CotNBalance+=10>>
@@ -1623,11 +1612,11 @@ The dragon takes care to avoid Khemia at close range, so he won't have a chance 
 				<<include "Pulse Bloom Code">>
 			<</if>>
 		<</if>>
-	<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+	<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 <</if>>
 <<if $joyousSword === 1 && $hiredCompanions.some(e => e.id === setup.companionIds.khemia) && $khemiaDragon === 0>>
 	Khemia has enough expertise with a blade that if you give him the Joyous Sunder sword he will be able to defeat a dragon with only minor burns, increasing your next 3 travel times by 2 days each.<br>
-	<<link "Have Khemia fight it off with the Joyous Sunder sword" $returnPassage>>
+	<<LinkButton "Have Khemia fight it off with the Joyous Sunder sword" $returnPassage "dark-btn obsidian">>
 		<<set $status.duration += 3, $status.penalty += 2, $khemiaDragon === 1, $dubloons += 50, $dragonKill += 1, $smaragdineThreatsSubmitted.dragon = true>>
 		<<if $CotNBalance<-4>>
 			<<set $CotNBalance+=10>>
@@ -1638,11 +1627,11 @@ The dragon takes care to avoid Khemia at close range, so he won't have a chance 
 				<<include "Pulse Bloom Code">>
 			<</if>>
 		<</if>>
-	<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+	<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 <</if>>
 <<if $ownedRelics.some(e => e.name === "Toral Wave") && $ownedRelics.some(e => e.name === "Empath Coil") && $electricDragon === 0>>
 While the Fell Dragons are immune to most conventional methods of attack, you can combine the power of the Toral Wave with the Empath Coil to electrocute the dragon. A single touch can stun the dragon, allowing follow-up attacks that can take it down. This method is only likely to work once, but it can effective. Even this method isn't safe though, leaving you with minor injuries that will increase your next 3 travel times by 2 days each.<br>
-	<<link "Use your Relics to electrocute the dragon" $returnPassage>>
+	<<LinkButton "Use your Relics to electrocute the dragon" $returnPassage "dark-btn obsidian">>
 		<<set $status.duration += 3, $status.penalty += 2, $electricDragon === 1, $dubloons += 50, $dragonKill += 1, $smaragdineThreatsSubmitted.dragon = true>>
 		<<if $CotNBalance<-4>>
 			<<set $CotNBalance+=10>>
@@ -1653,7 +1642,7 @@ While the Fell Dragons are immune to most conventional methods of attack, you ca
 				<<include "Pulse Bloom Code">>
 			<</if>>
 		<</if>>
-	<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+	<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 <</if>>
 <<if $mechaBoarded>>
 	The dragon stands tall in front of you, unwilling to back down despite the power of your Starlit Conquest. This may be a worthy opponent to test the full capabilities of your machine. But if they see you fight like this, the dragons might avoid you from now on.
@@ -1670,7 +1659,7 @@ If you try to run away without fighting to keep your dubloons safe, prepare to b
 <</nobr>>
 
 Use the following option only if you have specifically considered your inventory and made a plan of how to use what you have to take down a worm. You may only use each combination 1 time before the dragons learn from experience and overcome the weakness, making that strategy unusable a second time.
-<<link "Use a combination of Relics not mentioned above you believe would be able to overpower one of the dragons" $returnPassage>>
+<<LinkButton "Use a combination of Relics not mentioned above you believe would be able to overpower one of the dragons" $returnPassage "dark-btn obsidian">>
 	<<set $dragonKill += 1, $dubloons += 50>>
 	<<if $CotNBalance<-4>>
 		<<set $CotNBalance+=10>>
@@ -1681,4 +1670,4 @@ Use the following option only if you have specifically considered your inventory
 			<<include "Pulse Bloom Code">>
 		<</if>>
 	<</if>>
-<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>

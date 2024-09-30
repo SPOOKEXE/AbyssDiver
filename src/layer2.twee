@@ -88,16 +88,14 @@ This layer is filled with a very dense growth of vines, bushes, and other plant 
     <div class="category-header">Organization</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Use Items and Relics">
-          Items and Relics
+          <span class="icon">[img[setup.ImagePath+'Icons/useitems.png']]</span> Items and Relics
         </button>
       </div>
       <<if $hiredCompanions.length > 0>>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Party overview">
-          Your Party <<CheckParty>>
+          <span class="icon">[img[setup.ImagePath+'Icons/partytalk.png']]</span> Your Party <<CheckParty>>
         </button>
       </div>
       <</if>>
@@ -107,21 +105,18 @@ This layer is filled with a very dense growth of vines, bushes, and other plant 
     <div class="category-header">Layer Preparations</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Threats">
-          Threats
+          <span class="icon">[img[setup.ImagePath+'Icons/threats.png']]</span> Threats
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Forage">
-          Foraging
+          <span class="icon">[img[setup.ImagePath+'Icons/foraging.png']]</span> Foraging
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Habitation" data-setter="$returnPassage=&quot;Downcast Village Settlement Layer2&quot;">
-          Habitation
+          <span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span> Habitation
         </button>
       </div>
     </div>
@@ -130,15 +125,13 @@ This layer is filled with a very dense growth of vines, bushes, and other plant 
     <div class="category-header">Curses and Relics</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Curses">
-          Curses
+          <span class="icon">[img[setup.ImagePath+'Icons/curses.png']]</span> Curses
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Relics">
-          Relics
+          <span class="icon">[img[setup.ImagePath+'Icons/relicsearch.png']]</span> Relics
         </button>
       </div>
     </div>
@@ -147,28 +140,24 @@ This layer is filled with a very dense growth of vines, bushes, and other plant 
     <div class="category-header">Places</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Wonders">
-          Wonders
+          <span class="icon">[img[setup.ImagePath+'Icons/wonder.png']]</span> Wonders
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Camp">
-          Camp
+          <span class="icon">[img[setup.ImagePath+'Icons/camping.png']]</span> Camp
         </button>
       </div>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Settlement">
-          Settlements
+          <span class="icon">[img[setup.ImagePath+'Icons/village.png']]</span> Settlements
         </button>
       </div>
       <<if $emilyVisit == true>>
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/plant.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Emily Visit">
-          Visit Emily
+          <span class="icon">[img[setup.ImagePath+'Icons/plant.png']]</span> Visit Emily
         </button>
       </div>
       <</if>>
@@ -178,17 +167,15 @@ This layer is filled with a very dense growth of vines, bushes, and other plant 
     <div class="category-header">Travel</div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Ascend 1">
-          Ascend
+          <span class="icon">[img[setup.ImagePath+'Icons/ascent.png']]</span> Ascend
         </button>
       </div>
     </div>
     <div class="options-grid">
       <div class="menu-item">
-        <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span>
         <button class="dark-btn obsidian text-center" data-passage="Layer2 Exit1">
-          Descend
+          <span class="icon">[img[setup.ImagePath+'Icons/descent.png']]</span> Descend
         </button>
       </div>
     </div>
@@ -2320,7 +2307,7 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 <<if $mc.libido < 6>>
 	<<if $items[14].count > 0>>
 		Even a novice could vanquish such a primal creature using a human weapon like your trusty sword.<br>
-		<<link "Wield your sword and confront the beast" $returnPassage>>
+		<<LinkButton "Wield your sword and confront the beast" $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsDefeated.baying = true>>
 			<<if $CotNBalance<-4>>
 				<<set $CotNBalance+=10>>
@@ -2331,11 +2318,11 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 					<<include "Pulse Bloom Code">>
 				<</if>>
 			<</if>>
-		<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+		<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 	<</if>>
 	<<if $items[13].count > 0 && $items[20].count > 0 && $hiredCompanions.some(e => e.id === setup.companionIds.cloud)>>
 		Despite the creature's muscular build, it's no match for the lethal force of a pistol. A few well-aimed shots should do the trick. Cloud can bring the beast down easily with a single, precise shot.<br>
-		<<link "Have Cloud shoot once to bring down the beast" $returnPassage>>
+		<<LinkButton "Have Cloud shoot once to bring down the beast" $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsDefeated.baying = true>>
 			<<set $items[20].count -= 1>>
 			<<if $CotNBalance<-4>>
@@ -2347,10 +2334,10 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 					<<include "Pulse Bloom Code">>
 				<</if>>
 			<</if>>
-		<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+		<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 	<<elseif $items[13].count > 0 && $items[20].count > 2>>
 		Despite the creature's muscular build, it's no match for the lethal force of a pistol. A few well-aimed shots should do the trick.<br>
-		<<link "Fire your pistol thrice to bring down the beast" $returnPassage>>
+		<<LinkButton "Fire your pistol thrice to bring down the beast" $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsDefeated.baying = true>>
 			<<set $items[20].count -= 3>>
 			<<if $CotNBalance<-4>>
@@ -2362,7 +2349,7 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 					<<include "Pulse Bloom Code">>
 				<</if>>
 			<</if>>
-		<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+		<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 	<</if>>
 	<<if $items[1].count > 4>>
 		Hunger is the driving force behind the beast's aggression. With an ample supply of food at your disposal, you could offer some rations to appease it.<br>
@@ -2373,7 +2360,7 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 	<</if>>
 	<<if $slingshot === 1>>
 		The Brave Vector slingshot, as powerful as a firearm, can subdue the beast with a series of precise shots.<br>
-		<<link "Overcome the creature with the Brave Vector" $returnPassage>>
+		<<LinkButton "Overcome the creature with the Brave Vector" $returnPassage "dark-btn obsidian">>
 			<<set $smaragdineThreatsDefeated.baying = true>>
 			<<if $CotNBalance<-4>>
 				<<set $CotNBalance+=10>>
@@ -2384,7 +2371,7 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 					<<include "Pulse Bloom Code">>
 				<</if>>
 			<</if>>
-		<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+		<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 	<</if>>
 	<<if $mechaBoarded>>
 		As you activate the plasma sword of the Starlit Conquest, the baying gourmet whimpers like a terrified puppy and backs away.<br>
@@ -2397,7 +2384,7 @@ After a while you finally make it back to your boss. "Gerard, I finally got them
 <</if>>
 
 allow the beast to dominate you. While it won't consume you, recognizing you're not its usual prey, its curiosity will lead it to ravage you in a primal, carnal way. This experience will leave you with a slight limp, a status condition that adds an extra day to your next four travel times, unless you use a medkit to heal yourself immediately.<br>
-<<link "Allow the beast to overpower you" "Layer2 Gourmet Ravage">>
+<<LinkButton "Allow the beast to overpower you" "Layer2 Gourmet Ravage" "dark-btn obsidian">>
 	<<set $status.duration += (4 - $statRed)>>
 	<<set $status.penalty += 1>>
 	<<set $smaragdineThreatsSubmitted.baying = true>>
@@ -2412,7 +2399,7 @@ allow the beast to dominate you. While it won't consume you, recognizing you're 
 	>>
 		<<set $SemenDemonBalance+=10>>
 	<</if>>
-<</link>>
+<</LinkButton>>
 /*<button class="dark-btn obsidian" data-passage="Layer2 Gourmet Ravage" data-setter="$status.duration += (4 - $statRed), $status.penalty += 1">Allow it to overpower you</button><br>*/
 
 <<if $ownedRelics.some(e => e.name === "Creepy Doll")>>
@@ -2422,9 +2409,9 @@ allow the beast to dominate you. While it won't consume you, recognizing you're 
 
 		A gentle, comforting warmth emanates from the Creepy Doll, beckoning you to embrace it and welcome its presence into your heart.<br><br>
 
-		<<link "Hug the doll tightly and close your eyes" $returnPassage>>
+		<<LinkButton "Hug the doll tightly and close your eyes" $returnPassage "dark-btn obsidian">>
 			<<dollTF>>
-		<</link>><br>
+		<</LinkButton>><br>
 	<<else>>
 		<<say $creepydoll>> Wouldn't you just rather play with just me? I can make all bad things go away if its just the two of us!<</say>><br>
 	<</if>>
@@ -2432,7 +2419,7 @@ allow the beast to dominate you. While it won't consume you, recognizing you're 
 <</nobr>>
 
 Use the following option only if you have specifically considered your inventory and made a plan of how to use what you have to take down the beast.
-<<link "Use a combination of Relics not mentioned above you believe would be able to overpower one of the beasts" $returnPassage>>
+<<LinkButton "Use a combination of Relics not mentioned above you believe would be able to overpower one of the beasts" $returnPassage "dark-btn obsidian">>
 	<<if $CotNBalance<-4>>
 		<<set $CotNBalance+=10>>
 		<<if $devouredRelics.some(c=> c.name === "Pulse Bloom")>>
@@ -2442,7 +2429,7 @@ Use the following option only if you have specifically considered your inventory
 			<<include "Pulse Bloom Code">>
 		<</if>>
 	<</if>>
-<</link>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
+<</LinkButton>><<if $mc.hasCurse("Creature of the Night")>> <span class="icon">[img[setup.ImagePath+'Icons/blooddrop.png']]</span> <</if>><br><br>
 
 :: Layer2 Gourmet Ravage
 [img[setup.ImagePath+'Threats/bayinggourmet.png']]
@@ -3054,7 +3041,7 @@ Reed face contorts in annoyance and his full posture looms over you again.<br><b
 	<<say $Reed>> Are you telling me what I can and cannot do in my own home. Nobody talks to me like that, maybe a should teach you why...<</say>> <br>
 	<<say $companionKhemia>>Try me.<</say>>
 	A seconds long stand off between the four of them commences. Reed then looks at you and then back at Khemia.
-	<<say Reed>>Just get it done, 'partner'. And now fuck off.<</say>>
+	<<say $Reed>>Just get it done, 'partner'. And now fuck off.<</say>>
 	With that everybody calms down and you head towards the door.
 <<else>>
 	<<say $Reed>>Just get it done, okay?<</say>><br>
