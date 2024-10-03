@@ -275,7 +275,7 @@ setup.comfyUI_InvokeGenerator = async function(url, payload) {
 
 	const response = await fetch(url, {
 		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
+		headers: {'Origin' : 'AbyssDiver.html', 'Content-Type': 'application/json'},
 		body: JSON.stringify(payload)
 	});
 
@@ -368,6 +368,7 @@ setup.comfyUI_GenerateUIPortrait = async function() {
 		data = await setup.comfyUI_InvokeGenerator(url, {'character' : payload});
 	} catch (error) {
 		console.error('Unable to invoke ComfyUI generator.');
+		console.error(error);
 		notificationElement.textContent = 'Unable to contact the ComfyUI proxy. Make sure the Python code is running!';
 		notificationElement.style.display = 'block';
 		return;
