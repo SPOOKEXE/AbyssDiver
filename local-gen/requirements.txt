@@ -1,0 +1,4 @@
+requests
+pydantic
+tqdm # progress bar
+py7zr # .7z files
