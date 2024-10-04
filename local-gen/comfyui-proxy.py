@@ -3,8 +3,8 @@ from PIL import Image
 from fastapi import Body, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from io import BytesIO
-from pydantic import BaseModel, Field
-from typing import Annotated, Literal, Optional, Union
+from pydantic import BaseModel
+from typing import Literal, Optional, Union
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -18,17 +18,8 @@ import websockets
 
 ### COMFYUI.py ###
 COMFYUI_IMAGE_TYPE = Literal["input", "output", "temp"]
-
-COMFYUI_SAMPLERS = Literal[
-	"euler", "euler_ancestral", "heun",
-	"dpm_2", "dpm_2_ancestral", "lms",
-	"ddpm", "ddim", "uni_pc"
-]
-
-COMFYUI_SCHEDULERS= Literal[
-	"normal", "karras", "exponential",
-	"simple", "ddim_uniform", "beta"
-]
+COMFYUI_SAMPLERS = Literal["euler", "euler_ancestral", "heun", "dpm_2", "dpm_2_ancestral", "lms", "ddpm", "ddim", "uni_pc"]
+COMFYUI_SCHEDULERS= Literal["normal", "karras", "exponential", "simple", "ddim_uniform", "beta"]
 
 def image_to_base64(image : Image.Image) -> str:
 	buffered = BytesIO()
@@ -583,26 +574,19 @@ async def generate_character(
 ) -> Optional[Image.Image]:
 	prompt : str = await prepare_portrait_prompt(character)
 	print(prompt)
-
 	params = PortraitT2IGenericWorkflow(
 		checkpoint="hassakuXLHentai_v13.safetensors",
 		positive_prompt=prompt,
 		negative_prompt=DEFAULT_NEGATIVE_PROMPT
 	)
 	print(params)
-
 	workflow = await PrepareSimpleT2IWorkflow(params)
 	print(workflow)
-
 	COMFYUI_NODE = ComfyUI_API('127.0.0.1:8188')
 	await COMFYUI_NODE.open_websocket()
-
 	image_array : list[dict] = await COMFYUI_NODE.generate_images_using_worflow_prompt(workflow)
-
 	await COMFYUI_NODE.close_websocket()
-
 	if len(image_array) == 0: return None
-
 	raw_image : bytes = image_array[0]['image_data']
 	return Image.open(BytesIO(raw_image))
 ####################

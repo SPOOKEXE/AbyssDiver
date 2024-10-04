@@ -30,6 +30,8 @@ COMFYUI_REPOSITORY_URL : str = "https://github.com/comfyanonymous/ComfyUI"
 COMFYUI_API_REPOSITORY_URL : str = "https://api.github.com/repos/comfyanonymous/ComfyUI"
 COMFYUI_CUSTOM_NODES : list[str] = ["https://github.com/ltdrdata/ComfyUI-Manager", "https://github.com/Fannovel16/comfyui_controlnet_aux", "https://github.com/jags111/efficiency-nodes-comfyui", "https://github.com/WASasquatch/was-node-suite-comfyui"]
 
+MODELS_TO_DOWNLOAD : dict[str, str] = {"hassakuXLHentai_v13.safetensors" : "https://civitai.com/api/download/models/575495?type=Model&format=SafeTensor&size=pruned&fp=bf16"}
+
 WHITELISTED_OPERATION_SYSTEMS : list[str] = ["Linux", "Windows"]
 WINDOWS_ZIP_FILENAME : str = "ComfyUI_windows_portable_nvidia.7z"
 LINUX_ZIP_FILENAME : str = "source.tar.gz"
@@ -184,6 +186,23 @@ def install_comfyui_nodes(custom_nodes_folder : str) -> None:
 	os.chdir(before_cwd)
 	print("Installed ComfyUI Custom Nodes")
 
+def install_comfyui_checkpoints(checkpoints_folder : str) -> None:
+	index = 0
+	for filename, download_url in MODELS_TO_DOWNLOAD.items():
+		if os.path.exists(os.path.join(checkpoints_folder, filename)) is True:
+			index += 1
+			continue
+		print(index, '/', len(MODELS_TO_DOWNLOAD.values()))
+		print("Due to age restrictions you have to download models manually.")
+		print(f"Download the following model: {download_url}")
+		print(f"Place the model in the folder: {checkpoints_folder}")
+		print(f"Rename the file to {filename}.")
+		print("Press any key to continue once downloaded... ")
+		input()
+		if os.path.exists(os.path.join(checkpoints_folder, filename)) is False:
+			raise ValueError(f"Missing checkpoint! {filename} in directory {checkpoints_folder}")
+		index += 1
+
 def download_comfyui_latest(filename : str, directory : str) -> None:
 	"""Download the latest release."""
 	os.makedirs(directory, exist_ok=True)
@@ -229,6 +248,7 @@ def comfyui_windows_installer() -> None:
 	print("ComfyUI is located at: ", os.path.abspath(install_directory))
 
 	install_comfyui_nodes(os.path.join(COMFYUI_INSTALLATION_FOLDER, "ComfyUI", "custom_nodes"))
+	install_comfyui_checkpoints(os.path.join(COMFYUI_INSTALLATION_FOLDER, "ComfyUI", "models", "checkpoints"))
 
 def comfyui_linux_installer() -> None:
 	"""Install ComfyUI on Linux"""
@@ -246,6 +266,7 @@ def comfyui_linux_installer() -> None:
 	print("ComfyUI is located at: ", os.path.abspath(install_directory))
 
 	install_comfyui_nodes(os.path.join(COMFYUI_INSTALLATION_FOLDER, "ComfyUI", "custom_nodes"))
+	install_comfyui_checkpoints(os.path.join(COMFYUI_INSTALLATION_FOLDER, "ComfyUI", "models", "checkpoints"))
 
 def ask_windows_gpu_cpu() -> int:
 	is_gpu_mode : str = request_prompt("Will you be running image generation on your graphics card? (y/n)", ["y", "n"])
@@ -358,11 +379,13 @@ def main() -> None:
 		print('Installing for Windows!')
 		comfyui_windows_installer()
 		process_proxy = proxy_runner()
+		time.sleep(1) # let proxy output its message first
 		process_comfyui = comfyui_windows_runner()
 	elif os_platform == "Linux":
 		print('Installing for Linux!')
 		comfyui_linux_installer()
 		process_proxy = proxy_runner()
+		time.sleep(1) # let proxy output its message first
 		process_comfyui = comfyui_linux_runner()
 	else:
 		exit()
