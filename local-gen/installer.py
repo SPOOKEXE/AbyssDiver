@@ -186,6 +186,8 @@ def install_comfyui_nodes(custom_nodes_folder : str) -> None:
 
 def download_comfyui_latest(filename : str, directory : str) -> None:
 	"""Download the latest release."""
+	os.makedirs(directory, exist_ok=True)
+
 	filepath : str = os.path.join(directory, filename)
 	if os.path.exists(filepath) is True:
 		print(f"File {filename} has already been downloaded. Delete for it to be re-downloaded.")
@@ -285,7 +287,7 @@ def write_last_device(device : int) -> None:
 	with open("device", "w") as file:
 		file.write(device)
 
-def comfyui_windows_runner() -> None:
+def comfyui_windows_runner() -> subprocess.Popen:
 	"""Run the ComfyUI portable on Windows."""
 	assert COMFYUI_INSTALLATION_FOLDER, "COMFYUI_INSTALLATION_FOLDER is not set to anything - exiting."
 
@@ -301,8 +303,7 @@ def comfyui_windows_runner() -> None:
 		# os.system(PYTHON_COMMAND + ' f"{COMFYUI_INSTALLATION_FOLDER}/run_nvidia_gpu.bat"')
 		process = subprocess.Popen(["run_nvidia_gpu.bat"], cwd=COMFYUI_INSTALLATION_FOLDER, shell=True)
 
-	# os.kill(process.pid, signal.SIGTERM)
-	process.wait() # wait for process to terminate
+	return process
 
 def comfyui_linux_runner() -> None:
 	"""Run ComfyUI on Linux"""
@@ -331,12 +332,8 @@ def comfyui_linux_runner() -> None:
 	os.system(f"pip install -r {COMFYUI_INSTALLATION_FOLDER}/requirements.txt")
 	os.system(f"{PYTHON_COMMAND} {COMFYUI_INSTALLATION_FOLDER}/main.py")
 
-def proxy_runner() -> None:
-	# os.system(PYTHON_COMMAND + ' "local-gen/comfyui-proxy.py"')
-	process = subprocess.Popen([PYTHON_COMMAND, 'comfyui-proxy.py'], cwd=os.path.abspath("local-gen"), shell=True)
-
-	# os.kill(process.pid, signal.SIGTERM)
-	process.wait() # wait for process to terminate
+def proxy_runner() -> subprocess.Popen:
+	return subprocess.Popen([PYTHON_COMMAND, 'comfyui-proxy.py'], cwd=os.path.abspath("local-gen"), shell=True)
 
 def main() -> None:
 	os_platform : str = platform.system() # Windows, Linux
@@ -354,18 +351,28 @@ def main() -> None:
 
 	print(f"Found python ({py_cmd}) of version {version}.")
 
-	print('Downloading ComfyUI files.')
-	os.makedirs("local-gen/tools", exist_ok=True)
+	process_proxy : subprocess.Popen
+	process_comfyui : subprocess.Popen
+
 	if os_platform == "Windows":
 		print('Installing for Windows!')
-		#comfyui_windows_installer()
-		proxy_runner()
-		#comfyui_windows_runner()
+		comfyui_windows_installer()
+		process_proxy = proxy_runner()
+		process_comfyui = comfyui_windows_runner()
 	elif os_platform == "Linux":
 		print('Installing for Linux!')
 		comfyui_linux_installer()
-		proxy_runner()
-		comfyui_linux_runner()
+		process_proxy = proxy_runner()
+		process_comfyui = comfyui_linux_runner()
+	else:
+		exit()
+
+	try:
+		process_proxy.wait() # wait for process to terminate
+		process_comfyui.wait() # wait for comfyui to terminate
+	except KeyboardInterrupt: # CTRL+C
+		os.kill(process_proxy.pid, signal.SIGTERM)
+		os.kill(process_comfyui.pid, signal.SIGTERM)
 
 if __name__ == '__main__':
 	main()

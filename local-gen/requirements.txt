@@ -1,4 +1,20 @@
-requests
-pydantic
-tqdm # progress bar
+aiohttp
+fastapi
+huggingface_hub
+numpy
+opencv-python
+pillow
+pillow
 py7zr # .7z files
+pydantic
+pydantic
+requests
+requests_toolbelt
+scikit-image
+tensorflow_io
+timm
+tqdm # progress bar
+ultralytics
+uvicorn[standard]
+websocket-client
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124/ --upgrade
