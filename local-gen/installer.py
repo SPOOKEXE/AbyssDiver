@@ -229,7 +229,7 @@ def comfyui_windows_installer() -> None:
 	assert FILEPATH_FOR_7z, "Could not locate 7zip in 'Program Files' or 'Program Files (x86)'  or 'Environment Variables'."
 	print("7zip is installed - continuing.")
 
-	directory : str = "local-gen/tools"
+	directory : str = "tools"
 	download_comfyui_latest(WINDOWS_ZIP_FILENAME, directory)
 
 	# unzip the file if not already done
@@ -252,7 +252,7 @@ def comfyui_windows_installer() -> None:
 
 def comfyui_linux_installer() -> None:
 	"""Install ComfyUI on Linux"""
-	directory : str = "local-gen/tools"
+	directory : str = "tools"
 
 	download_git_portal_linux() # make sure git is installed
 
@@ -354,7 +354,7 @@ def comfyui_linux_runner() -> None:
 	os.system(f"{PYTHON_COMMAND} {COMFYUI_INSTALLATION_FOLDER}/main.py")
 
 def proxy_runner() -> subprocess.Popen:
-	return subprocess.Popen([PYTHON_COMMAND, 'comfyui-proxy.py'], cwd=os.path.abspath("local-gen"), shell=True)
+	return subprocess.Popen([PYTHON_COMMAND, 'comfyui-proxy.py'], shell=True)
 
 def main() -> None:
 	os_platform : str = platform.system() # Windows, Linux
