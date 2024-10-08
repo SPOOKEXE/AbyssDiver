@@ -420,8 +420,8 @@ This game allows you to use an OpenAI API key to generate player portraits autom
 
 <<nobr>>
 <div class="relicToggleEntry">
-    <div>The Abyss can change you. Do you want to use an OpenAI API key to generate your portrait as you change?</div>
-    <div><<printHTML `toggle(v => settings.AIPortraitsMode = v, settings.AIPortraitsMode)`>></div>
+    <div>The Abyss can change you. Do you want to use AI to generate your portrait as you change?</div>
+    <div><<printHTML `toggle(v => settings.AIGenerationEnabled = v, settings.AIGenerationEnabled)`>></div>
 </div>
 <</nobr>>
 
@@ -569,8 +569,8 @@ If you have any questions, feel free to ask on our Discord server. And you're ve
 
 <<nobr>>
 <div class="relicToggleEntry">
-    <div>The Abyss can change you. Do you want to use an OpenAI API key to generate your portrait as you change?</div>
-    <div><<printHTML `toggle(v => settings.AIPortraitsMode = v, settings.AIPortraitsMode)`>></div>
+    <div>The Abyss can change you. Do you want to use AI to generate your portrait as you change?</div>
+    <div><<printHTML `toggle(v => settings.AIGenerationEnabled = v, settings.AIGenerationEnabled)`>></div>
 </div>
 <</nobr>>
 

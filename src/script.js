@@ -472,6 +472,28 @@ Setting.addToggle("EncounterFiat", {
     default  : false,
 });
 
+Setting.addHeader("AI Settings");
+
+Setting.addToggle("AIGenerationEnabled", {
+    label : "Enable you to use OpenAI or ComfyUI to generate portraits of your character.",
+    default  : false,
+});
+
+Setting.addToggle("OverridePortrait", {
+    label : "Newly generated AI portraits automatically override your current portrait.",
+    default  : false,
+});
+
+Setting.addToggle("EnableCGScenes", {
+    label : "Enable the generation of CG scenes.",
+    default  : false,
+});
+
+Setting.addToggle("Enable18+Generation", {
+    label : "Enable 18+ AI generation.",
+    default  : false,
+});
+
 Setting.addHeader("Content Settings");
 
 Setting.addToggle("MaleSceneToggleFilter", {
