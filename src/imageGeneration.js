@@ -389,7 +389,7 @@ setup.comfyUI_GenerateUIPortrait = async function() {
 	// check if we actually received any images
 	if (data.images == null || data.images.length == 0) {
 		console.error('No images returned from server. This might be due to an issue with the Stable Diffusion model or the server.');
-		notificationElement.textContent = 'Error generating image: ' + error.message + (error.response ? (await error.response.json()).error : 'No additional error information from OpenAI.');
+		notificationElement.textContent = 'No images were returned from the proxy! Is ComfyUI running? ' + JSON.stringify(data);
 		notificationElement.style.display = 'block';
 		is_generation_busy = false;
 		return;

@@ -80,6 +80,12 @@ class ComfyUI_API:
 
 		print(self.client_id)
 
+	async def is_available(self) -> None:
+		try:
+			_ = await async_get(f"http://{self.server_address}")
+		except:
+			raise Exception("Cannot connect to ComfyUI!")
+
 	async def open_websocket(self) -> None:
 		address : str = f"ws://{self.server_address}/ws?clientId={self.client_id}"
 		self._websocket = websockets.connect(address)
@@ -583,6 +589,7 @@ async def generate_character(
 	workflow = await PrepareSimpleT2IWorkflow(params)
 	print(workflow)
 	COMFYUI_NODE = ComfyUI_API('127.0.0.1:8188')
+	await COMFYUI_NODE.is_available()
 	await COMFYUI_NODE.open_websocket()
 	image_array : list[dict] = await COMFYUI_NODE.generate_images_using_worflow_prompt(workflow)
 	await COMFYUI_NODE.close_websocket()
@@ -604,7 +611,7 @@ async def API_generate_character(
 		image = await generate_character(character)
 	except Exception as e:
 		print(e)
-		return {'error' : 'Error occured.'}
+		return {'error' : 'Failed to generate the character! Is ComfyUI running?', 'exception' : str(e)}
 	return {'images' : [image_to_base64(image)]}
 
 async def main() -> None:
