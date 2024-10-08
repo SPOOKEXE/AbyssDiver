@@ -373,7 +373,7 @@ Macro.add('say', {
        let imgSrc = setup.ImagePath + (imageIcon ?? person?.imageIcon ?? '');
        const isPlayer = person === State.variables.mc;
        if (isPlayer) {
-           if (settings.OverridePortrait) {
+           if (settings.ForcedPortrait) {
                imgSrc = "images/GeneratedPortraits/CharacterPortraitOverride.png";
            } else if (setup.firstPortraitGen) {
                imgSrc = "images/Player Icons/playerF.png";
@@ -385,7 +385,7 @@ Macro.add('say', {
                imgSrc = `images/Player Icons/player${gender}${portraitNumber}.png`;
            }
        }
-       const imgClass = (isPlayer && !settings.OverridePortrait) ? 'portraitImage' : 'otherImage';
+       const imgClass = (isPlayer && !settings.ForcedPortrait) ? 'portraitImage' : 'otherImage';
        // Use custom color for companions, fallback to gender-based color for others
        let borderColor;
        const companionColors = {
@@ -475,22 +475,22 @@ Setting.addToggle("EncounterFiat", {
 Setting.addHeader("AI Settings");
 
 Setting.addToggle("AIGenerationEnabled", {
-    label : "Enable you to use OpenAI or ComfyUI to generate portraits of your character.",
+    label : "Enable you to use AI to generate portraits of your character.",
     default  : false,
 });
 
-Setting.addToggle("OverridePortrait", {
+Setting.addToggle("ForcedPortrait", {
+    label : "Force the portrait to be overriden by the 'images/GeneratedPortraits/CharacterPortraitOverride.png' image file.",
+    default  : false,
+});
+
+Setting.addToggle("AutoApplyGenerated", {
     label : "Newly generated AI portraits automatically override your current portrait.",
     default  : false,
 });
 
 Setting.addToggle("EnableCGScenes", {
-    label : "Enable the generation of CG scenes.",
-    default  : false,
-});
-
-Setting.addToggle("Enable18+Generation", {
-    label : "Enable 18+ AI generation.",
+    label : "Enable the generation of CG scenes (ComfyUI only).",
     default  : false,
 });
 
@@ -1461,12 +1461,22 @@ setup.queryImageDB = async function(key) {
     });
 };
 
-setup.displayImage = async function() {
+setup.displayGeneratorImage = async function() {
+    var image = null;
     try {
-        const base64Image = await setup.queryImageDB("playerPortrait");
-        const imgElements = document.querySelectorAll(".dalleImage");
+        image = "data:image/png;base64," + await setup.queryImageDB("generatedImage");
+    } catch {
+        try {
+            image = "data:image/png;base64," + await setup.queryImageDB("playerPortrait");
+        } catch {
+            image = "images/Player Icons/player" + (State.variables.mc.gender >= 4 ? 'F' : 'M') + String(State.variables.portraitNumber || 0) + ".png"
+        }
+    }
+
+    try {
+        const imgElements = document.querySelectorAll(".generatedImage");
         imgElements.forEach(function(imgElement) {
-            imgElement.src = "data:image/png;base64," + base64Image;
+            imgElement.src = image
         });
     } catch (error) {
         console.error(error);
@@ -1759,6 +1769,17 @@ Macro.add('sidebar-widget', {
         </button>
         `;
 
+        var sidebarPortrait = null;
+        if (settings.SidebarPortrait && !settings.ForcedPortrait && setup.firstPortraitGen) {
+            sidebarPortrait = `<img class="portraitImage" src="" alt="Generated Portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">`;
+        } else {
+            if (settings.ForcedPortrait) {
+                sidebarPortrait = `<img src="images/GeneratedPortraits/CharacterPortraitOverride.png" alt="Override Portrait Image" class="portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">`
+            } else {
+                sidebarPortrait = `<img src="images/Player Icons/player${State.variables.mc.gender >= 4 ? 'F' : 'M'}${State.variables.portraitNumber || 0}.png" alt="Player Portrait ${(State.variables.portraitNumber || 0) + 1}" class="portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">`;
+            }
+        }
+
         const sidebarHTML = `
             <div class="twine-sidebar">
                 <div class="twine-sidebar-nav-sticky">
@@ -1766,12 +1787,7 @@ Macro.add('sidebar-widget', {
                         <button id="custom-back-button" class="nav-arrow left">&larr;</button>
                         <button id="custom-forward-button" class="nav-arrow right">&rarr;</button>
                     </div>
-                    ${settings.SidebarPortrait && !settings.OverridePortrait && setup.firstPortraitGen ?
-                        `<img class="dalleImage portrait" src="" alt="Generated Portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">` :
-                        (settings.OverridePortrait ?
-                        `<img src="images/GeneratedPortraits/CharacterPortraitOverride.png" alt="Override Portrait Image" class="portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">` :
-                        `<img src="images/Player Icons/player${State.variables.mc.gender >= 4 ? 'F' : 'M'}${State.variables.portraitNumber || 0}.png" alt="Player Portrait ${(State.variables.portraitNumber || 0) + 1}" class="portrait" style="--gender-color: ${getGenderColor(State.variables.mc.gender)};">`)
-                    }
+                    ${sidebarPortrait}
                 </div>
 
                 <div class="resource-item tooltip">
@@ -1914,8 +1930,8 @@ Macro.add('sidebar-widget', {
 
         $('body').prepend(sidebarHTML);
 
-        if (settings.SidebarPortrait && !settings.OverridePortrait && setup.firstPortraitGen) {
-            setup.displayImage();
+        if (settings.SidebarPortrait && !settings.ForcedPortrait && setup.firstPortraitGen) {
+            setup.displayPortraitImage();
         }
 
         $('#menu .text-center').on('click', function() {

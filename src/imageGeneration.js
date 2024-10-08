@@ -69,6 +69,8 @@ variables
  * @property {function} addUserCurseSet
  */
 
+let is_generation_busy = false;
+
 /*
 	===============================================
 	OPENAI DALLE GENERATOR
@@ -179,7 +181,7 @@ setup.evaluateDalleCharacterDescription = function(mc) {
 };
 
 setup.openAI_InvokeDalleGenerator = async function(prompt) {
-	const apiKey = settings.OpenAIAPIKey;
+	const apiKey = State.variables.OpenAIAPIKey;
 	const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`}
 
 	const body = JSON.stringify({
@@ -199,30 +201,32 @@ setup.openAI_InvokeDalleGenerator = async function(prompt) {
 	}
 
 	const data = await response.json();
-	// Debugging: Inspect the structure of the response
 	console.log(data);
 
 	if (data.data && data.data.length > 0) {
-		/*
-			const imageUrl = data.data[0].url;
-			$("#dalleImage").attr("src", imageUrl);
-		*/
 		const base64Image = data.data[0].b64_json;
 		console.log("Base64 Data Length: ", base64Image ? base64Image.length : "undefined");
-		setup.storeImage("playerPortrait", base64Image)
+		setup.storeImage("generatedImage", base64Image)
 			.then(() => console.log('Image successfully stored.'))
 			.catch((error) => console.error('Failed to store image:', error));
 	} else {
 		console.error('No images returned:', data);
 		throw new Error('No images returned from server. This is likely due to a content policy error or server error from OpenAI.');
 	}
-	// Return the data for further processing
+
 	return data;
 }
 
 setup.openAI_GenerateDallePortrait = async function() {
+	if (is_generation_busy) {
+		return;
+	}
+	is_generation_busy = true;
+
 	// Notification element
-	const notificationElement = document.getElementById('notification');
+	const notificationElement = document.getElementById('notification-bad');
+	const notificationGood = document.getElementById('notification-good');
+	notificationGood.style.removeProperty('display');
 
 	// Static part of the prompt
 	let staticPrompt = "Create an anime-inspired digital painting of a single character with each of the following traits. You must keep in mind every physical trait below. You must use an *anime-inspired digital painting* style. The character is an adventurer and the background of the scene is the Abyss from MiA. Do NOT use the word character in the final prompt.\n\nCharacter traits:\n";
@@ -242,6 +246,7 @@ setup.openAI_GenerateDallePortrait = async function() {
 		console.error('Error generating image:', error);
 		notificationElement.style.display = 'block';
 		notificationElement.textContent = 'Error generating image: ' + error.message + (error.response ? (await error.response.json()).error : 'No additional error information from OpenAI.');
+		is_generation_busy = false;
 		return;
 	}
 
@@ -249,18 +254,16 @@ setup.openAI_GenerateDallePortrait = async function() {
 		console.error('No images were returned from Dalle.');
 		notificationElement.style.display = 'block';
 		notificationElement.textContent = 'No images were returned from Dalle.';
+		is_generation_busy = false;
 		return;
 	}
 
-	/*
-		const imageUrl = data.data[0].url;
-		$("#dalleImage").attr("src", imageUrl);
-	*/
 	const storeKey = "playerPortrait";
 	const base64Image = data.data[0].b64_json;
 	console.log("Base64 Data Length: ", base64Image ? base64Image.length : "undefined");
 	setup.storeImage(storeKey, base64Image)
 		.then(() => console.log('Image successfully stored.'))
+		.finally(() => is_generation_busy = false)
 		.catch((error) => console.error('Failed to store image:', error));
 }
 
@@ -349,8 +352,16 @@ setup.comfyUI_PrepareCharacterData = async function() {
 
 // http://127.0.0.1:8000/generate_portrait
 setup.comfyUI_GenerateUIPortrait = async function() {
+	if (is_generation_busy) {
+		return;
+	}
+	is_generation_busy = true;
+
 	// notification element
-	const notificationElement = document.getElementById('notification');
+	const notificationElement = document.getElementById('notification-bad');
+
+	const notificationGood = document.getElementById('notification-good');
+	notificationGood.style.removeProperty('display');
 
 	// data to be sent to comfyui
 	const url = "http://127.0.0.1:8000/generate_portrait"
@@ -371,6 +382,7 @@ setup.comfyUI_GenerateUIPortrait = async function() {
 		console.error(error);
 		notificationElement.textContent = 'Unable to contact the ComfyUI proxy. Make sure the Python code is running!';
 		notificationElement.style.display = 'block';
+		is_generation_busy = false;
 		return;
 	}
 
@@ -379,15 +391,17 @@ setup.comfyUI_GenerateUIPortrait = async function() {
 		console.error('No images returned from server. This might be due to an issue with the Stable Diffusion model or the server.');
 		notificationElement.textContent = 'Error generating image: ' + error.message + (error.response ? (await error.response.json()).error : 'No additional error information from OpenAI.');
 		notificationElement.style.display = 'block';
+		is_generation_busy = false;
 		return;
 	}
 
 	// once we receive the image, save it as the player portrait
-	const storeKey = "playerPortrait";
+	const storeKey = "generatedImage";
 	const b64Image = data.images[0]; // Assuming the images are returned as base64 strings
 	console.log("Base64 Data Length: ", b64Image.length);
 	setup.storeImage(storeKey, b64Image)
 		.then(() => console.log('Image successfully stored.'))
+		.finally(() => is_generation_busy)
 		.catch((error) => console.error('Failed to store image:', error));
 }
 
@@ -397,8 +411,16 @@ setup.comfyUI_PrepareSceneData = async function(scene_id, scene_params) {
 
 // http://127.0.0.1:8000/generate_scene
 setup.comfyUI_GenerateCharacterScene = async function(scene_id, scene_params) {
+	if (is_generation_busy) {
+		return;
+	}
+	is_generation_busy = true;
+
 	// notification element
-	const notificationElement = document.getElementById('notification');
+	const notificationElement = document.getElementById('notification-bad');
+
+	const notificationGood = document.getElementById('notification-good');
+	notificationGood.style.removeProperty('display');
 
 	// data to be sent to comfyui
 	const url = "http://127.0.0.1:8000/generate_scene";
@@ -418,6 +440,7 @@ setup.comfyUI_GenerateCharacterScene = async function(scene_id, scene_params) {
 		console.error('Unable to invoke ComfyUI generator.');
 		notificationElement.textContent = 'Unable to contact the ComfyUI proxy. Make sure the Python code is running!';
 		notificationElement.style.display = 'block';
+		is_generation_busy = false;
 		return;
 	}
 
@@ -426,6 +449,7 @@ setup.comfyUI_GenerateCharacterScene = async function(scene_id, scene_params) {
 		console.error('No images returned from server. This might be due to an issue with the proxy server or ComfyUI!');
 		notificationElement.textContent = 'Error generating image: ' + error.message + (error.response ? (await error.response.json()).error : 'No additional error information from OpenAI.');
 		notificationElement.style.display = 'block';
+		is_generation_busy = false;
 		return;
 	}
 
@@ -435,6 +459,7 @@ setup.comfyUI_GenerateCharacterScene = async function(scene_id, scene_params) {
 	console.log("Base64 Data Length: ", b64Images.reduce((sum, str) => sum + str.length, 0));
 	setup.storeImage(storeKey, b64Images)
 		.then(() => console.log('Image successfully stored.'))
+		.finally(() => is_generation_busy)
 		.catch((error) => console.error('Failed to store image:', error));
 }
 
@@ -444,11 +469,22 @@ ENTRY POINT
 ===============================================
 */
 
-setup.call_CharacterSceneGenerator = async function(scene_id, scene_params) {
-	await setup.comfyUI_GenerateCharacterScene(scene_id, scene_params)
-}
-
-setup.call_PortraitImageGenerator = async function() {
-	// await setup.openAI_GenerateDallePortrait();
-	await setup.comfyUI_GenerateUIPortrait();
+setup.setOpenAIKey = async function(api_key) {
+	const notificationBad = document.getElementById('notification-bad');
+	const notificationGood = document.getElementById('notification-good');
+	notificationBad.style.removeProperty('display');
+	notificationGood.style.removeProperty('display');
+	if (api_key == null || api_key == undefined) {
+		notificationBad.textContent = 'No OpenAI API key was provided.';
+		notificationBad.style.display = 'block';
+		return
+	}
+	if (api_key.startsWith("sk") == false) {
+		notificationBad.textContent = 'Invalid OpenAI API key was provided.';
+		notificationBad.style.display = 'block';
+		return
+	}
+	notificationGood.textContent = 'OpenAI API key has been set. You can proceed with image generation.';
+	notificationGood.style.display = 'block';
+	State.variables.OpenAIAPIKey = api_key;
 }

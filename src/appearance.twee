@@ -1,76 +1,77 @@
 
 :: Appearance [noreturn nobr]
 
-<<if settings.OverridePortrait == true>>
+<div id="notification-bad" style="notification-bad"></div><br>
+<div id="notification-good" style="notification-good"></div><br>
+
+<<if settings.ForcedPortrait == true>>
 	<img src="images/GeneratedPortraits/CharacterPortraitOverride.png" alt="Override Portrait Image" style="max-width: 30%;">
-<<elseif setup.firstPortraitGen>>
-	<img class="dalleImage" src="" style="max-width: 30%;">
-	<<run setup.displayImage()>>
+<<else>>
+	<img class="generatedImage" src="" style="max-width: 30%;">
+	<<run setup.displayGeneratorImage(false)>>
 <</if>>
 
 <<if settings.AIGenerationEnabled == true>>
 	<br>
 	<div class="button-container" align="center">
 		<<button "OpenAIDalle">>
-		<<script>>
-			(async () => {
-				document.querySelectorAll('.AIGeneratorOption').forEach(button => {
-					console.log(button.getAttribute('generator'));
-					button.hidden = button.getAttribute('generator') != 'OpenAIDalle';
-				})
-			})();
-		<</script>>
+			<<script>>
+				(async () => {
+					document.querySelectorAll('.AIGeneratorOption').forEach(button => {
+						button.hidden = button.getAttribute('generator') != 'OpenAIDalle';
+					})
+				})();
+			<</script>>
 		<</button>>
-
 		<<button "LocalComfyUI">>
-		<<script>>
-			(async () => {
-				document.querySelectorAll('.AIGeneratorOption').forEach(button => {
-					console.log(button.getAttribute('generator'));
-					button.hidden = button.getAttribute('generator') != 'LocalComfyUI';
-				})
-			})();
-		<</script>>
+			<<script>>
+				(async () => {
+					document.querySelectorAll('.AIGeneratorOption').forEach(button => {
+						button.hidden = button.getAttribute('generator') != 'LocalComfyUI';
+					})
+				})();
+			<</script>>
 		<</button>>
 	</div>
 	<br>
-
 	<div class="AIGeneratorOption" generator="OpenAIDalle">
-		<a>OpenAIDalle</a>
-	</div>
-
-	<div hidden class="AIGeneratorOption" generator="LocalComfyUI">
-		<a>LocalComfyUI</a>
-	</div>
-
-	<hr>
-
-	/*
-		<<if settings.OverridePortrait == true>>
-			<img src="images/GeneratedPortraits/CharacterPortraitOverride.png" alt="Override Portrait Image" style="max-width: 70%;">
-		<<elseif setup.firstPortraitGen>>
-			<img class="dalleImage" src="" style="max-width: 70%;">
-			<<run setup.displayImage()>>
-		<</if>>
+		Selected: <b>OpenAI Dalle Generator</b><br>
+		Beware that you pay using credits on your OpenAI account for each generation.<br>
+		<<textbox "$OpenAI_APIKey" "">><br>
+		<<button "Set OpenAPI Key">>
+			<<run setup.setOpenAIKey($OpenAI_APIKey)>>
+		<</button>>
+		<<button "Generate Portrait">>
+			<<script>>
+				(async () => {
+					setup.openAI_GenerateDallePortrait();
+					setup.displayGeneratorImage();
+				})();
+			<</script>>
+		<</button>>
+		<hr>
+		The prompt sent to OpenAI Dalle Generator is:<code>
 		<br><br>
-
-		<<if settings.OpenAIAPIKey && settings.OpenAIAPIKey.startsWith("sk")>>
-			<button class="dark-btn obsidian" data-passage="Generate AI Portrait">Generate New AI Portrait</button>
-		<<elseif $userAPIKey.startsWith("sk")>>
-			<<set settings.OpenAIAPIKey = $userAPIKey>>
-			<button class="dark-btn obsidian" data-passage="Generate AI Portrait">Generate New AI Portrait</button>
-		<<else>>
-			Enter your OpenAI API key to enable the generation of AI character portraits. (Do NOT share your save file if you have entered your API key! The AI Portrait option can be disabled in settings to remove this message.)<br>
-			<button class="dark-btn obsidian" data-passage="API Key Guide">API Key Guide</button><br>
-			<button class="dark-btn obsidian" data-passage="Portrait Prompt">View Portrait Prompt</button><br>
-			<<textbox "$userAPIKey" "">><br>
-			<<button "Submit">>
-				<<set settings.OpenAIAPIKey to $userAPIKey>>
-				<<goto "Appearance">>
-			<</button>>
-		<</if>>
-		<br><hr>
-	*/
+		Create an anime-inspired digital painting of a single character with each of the following traits. You must keep in mind every physical trait below. You must use an *anime-inspired digital painting* style. The character is an adventurer and the background of the scene is the Abyss from MiA. Do NOT use the word character in the final prompt.
+		<br><br>
+		Character traits:
+		<br><br>
+		<<= setup.evaluateDalleCharacterDescription(State.variables.mc) >>
+		</code>
+	</div>
+	<div hidden class="AIGeneratorOption" generator="LocalComfyUI">
+		Selected: <b>Local ComfyUI Generator</b><br>
+		You are required to run the "one-click installer" for this to function.<br>
+		<<button "Generate Portrait">>
+			<<script>>
+				(async () => {
+					setup.comfyUI_GenerateUIPortrait();
+					setup.displayGeneratorImage();
+				})();
+			<</script>>
+		<</button>>
+	</div>
+	<hr>
 <<else>>
 	AI Generation is disabled in settings.
 	<hr>
@@ -428,64 +429,10 @@ Overall, the world would probably see you as a <<PerceivedStature $mc>> <<Percei
 <<if settings.OpenAIAPIKey and settings.OpenAIAPIKey.startsWith("sk")>>
 	Would you like to reset your OpenAI API key?<br>
 	<span class="reset-button"><<button "Reset API Key">>
-		<<set settings.OpenAIAPIKey = "x">>
-		<<set $userAPIKey = "x">>
+		<<set settings.OpenAIAPIKey = "">>
+		<<set $OpenAI_APIKey = "">>
 		<<goto "Appearance">>
 	<</button>></span><br><br>
 <</if>>
 
 <button class="dark-btn obsidian" onclick="goBackToPassage(SugarCube.State.variables.menuReturn)">Back</button>
-
-:: Generate AI Portrait [noreturn nobr]
-
-<<set $characterDescription = setup.evaluateDalleCharacterDescription($mc)>>
-
-Generate a new AI portrait of your character (this will take at least a few seconds). Be aware that you must pay with credit on your OpenAI account for each generation.<br><br>
-<<button "Generate New Portrait">>
-	<<script>>
-		(async () => {
-			await setup.call_PortraitImageGenerator();
-			setup.displayImage();
-		})();
-	<</script>>
-	<<set setup.firstPortraitGen = true>>
-<</button>><br>
-<button class="dark-btn obsidian" data-passage="Portrait Prompt">View Portrait Prompt</button>
-<div id="notification"></div><br>
-<img class="dalleImage" src="" alt="AI Generated Portrait" style="max-width: 70%;"><br><br>
-
-Once your portrait is generated, you can follow the next step to save it for long term use, otherwise it will be overridden when you generate a new portrait.<br><br>
-
-<b>>Right click the image and save it as an image named "CharacterPortraitOverride.png" in the folder /images/GeneratedPortraits.</b><br><br>
-
-Once you do that, you can save the image for future use and enable the use of the image as your main portrait in settings.<br><br>
-
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
-
-<button class="dark-btn obsidian" onclick="goBackToPassage(SugarCube.State.variables.menuReturn)">Confirm</button>
-
-:: Portrait Prompt [noreturn nobr]
-
-This prompt is made to be used with DALL-E 3 or ChatGPT and may require modification to be used with other image models, such as Stable Diffusion. It also has all NSFW information stripped away, so you can add that back in if you are using an uncensored model.<br><br>
-
-If you have ChatGPT Plus, then you can paste this prompt directly into ChatGPT and it should work well.<br><br>
-
-Prompt:<br><br>
-
-Create an anime-inspired digital painting of a single adventurer with each of the following traits, in the background of the Abyss from MiA. Do NOT use the word character in the final prompt.<br><br>
-
-<<= setup.evaluateDalleCharacterDescription(State.variables.mc) >><br><br>
-
-<<button "Copy Prompt">>
-	<<script>>
-		var promptText = "Create an anime-inspired digital painting of a single adventurer with each of the following traits, in the background of the Abyss from MiA. Do NOT use the word character in the final prompt.\n\n" + setup.evaluateDalleCharacterDescription(State.variables.mc);
-		navigator.clipboard.writeText(promptText).then(function() {
-			alert("Prompt copied to clipboard!");
-		}, function() {
-			alert("Failed to copy prompt. Please try again.");
-		});
-	<</script>>
-	<<set setup.firstPortraitGen = true>>
-<</button>><br><br>
-
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>

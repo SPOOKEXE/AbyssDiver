@@ -298,7 +298,7 @@ document.documentElement.setAttribute("lang", "en");
 <<set $CatastropheUsed = -6>>
 <<set $curse_list_levels = ["Libido Reinforcement", "Gender Reversal", "Asset Robustness", "Clothing Restriction", "Age Reduction", "Submissiveness Rectification", "Lactation Rejuvenation", "Pleasure Respecification", "Urine Reamplification"]>>
 
-<<set $userAPIKey = "">>
+<<set $OpenAI_APIKey = "">>
 <<set setup.firstPortraitGen = false>>
 <<set $portraitNumber = 0>>
 
