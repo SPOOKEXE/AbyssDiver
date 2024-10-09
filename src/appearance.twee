@@ -50,14 +50,14 @@
 			<</script>>
 		<</button>>
 		<hr>
-		The prompt sent to OpenAI Dalle Generator is:<code>
+		The prompt sent to OpenAI Dalle Generator is:<i>
 		<br><br>
 		Create an anime-inspired digital painting of a single character with each of the following traits. You must keep in mind every physical trait below. You must use an *anime-inspired digital painting* style. The character is an adventurer and the background of the scene is the Abyss from MiA. Do NOT use the word character in the final prompt.
 		<br><br>
 		Character traits:
 		<br><br>
 		<<= setup.evaluateDalleCharacterDescription(State.variables.mc) >>
-		</code>
+		</i>
 	</div>
 	<div hidden class="AIGeneratorOption" generator="LocalComfyUI">
 		Selected: <b>Local ComfyUI Generator</b><br>
