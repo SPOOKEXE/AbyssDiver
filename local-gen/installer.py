@@ -379,13 +379,13 @@ def main() -> None:
 		print('Installing for Windows!')
 		comfyui_windows_installer()
 		process_proxy = proxy_runner()
-		time.sleep(1) # let proxy output its message first
+		time.sleep(3) # let proxy output its message first
 		process_comfyui = comfyui_windows_runner()
 	elif os_platform == "Linux":
 		print('Installing for Linux!')
 		comfyui_linux_installer()
 		process_proxy = proxy_runner()
-		time.sleep(1) # let proxy output its message first
+		time.sleep(3) # let proxy output its message first
 		process_comfyui = comfyui_linux_runner()
 	else:
 		exit()
