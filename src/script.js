@@ -278,7 +278,9 @@ $(document).on(':passagestart', ev => {
     if (!tags().includes('noreturn')) vars.menuReturn = passage();
 
     // Add some CSS classes based on where we are.
-    if (State.variables.comBalloon) {
+    if (tags().includes('titleScreen')) {
+        document.body.classList.add('titleScreen');
+    } else if (State.variables.comBalloon) {
         document.body.classList.add('balloon');
     } else if (vars.currentLayer < 1) {
         document.body.classList.add('surface');
@@ -424,22 +426,34 @@ Macro.add('say', {
        <</nobr>>`;
        $(this.output).wiki(output);
     }
-   });
+});
 
+Setting.addHeader("General Settings");
 
+Setting.addRange("volume", {
+    label    : "Volume",
+    min      : 0,
+    max      : 1,
+    step     : 0.1,
+    default : (typeof settings.volume === 'number' && setting.volume || 0.5),
+    onInit : window.setMasterVolume,
+    onChange : window.setMasterVolume
+});
 
 Setting.addToggle("accessible", {
     label : "Disable extra fancy text formatting",
     default  : false,
 });
 
+Setting.addHeader("AI Settings");
+
 Setting.addToggle("AIPortraitsMode", {
-    label : "Enable you to use your own OpenAI API key to generate portraits of your character",
+    label : "Enable the use of OpenAI's Dalle Generator to generate your own portrait.",
     default  : false,
 });
 
 Setting.addToggle("OverridePortrait", {
-    label : "Override the most recent AI portrait with your own portrait choice, in the images folder",
+    label : "Force the portrait to be overriden by the 'images/GeneratedPortraits/CharacterPortraitOverride.png' image file.",
     default  : false,
 });
 
@@ -682,7 +696,7 @@ Object.defineProperties(setup, {
     },
     // Check whether the player has scuba gear or an equivalent.
     haveScubaGear: {
-        get: () => checkAvailability(['Scuba Gear'], ['Pneuma Wisp'], ['scuba']),
+        get: () => checkAvailability(['Scuba Gear'], ['Pneuma Wisp'], ['scuba']) || variables().mc.hasCurse("Seafolk"),
     },
     // Check or set whether the player has a regular smartphone.
     haveSmartphoneRegular: {
@@ -915,6 +929,9 @@ Object.defineProperties(setup, {
                 case setup.companionIds.saeko:
                     willingCurses.push("Asset Robustness A", "Freckle Speckle", "Equal Opportunity",
                         "Crossdress Your Heart", "Age Reduction A", "Age Reduction B");
+                    if (State.variables.argumentSaekoCloud === true) {
+                            willingCurses.push("Power Dom");
+                    }
                     break;
             }
             let idealGender = companion.mindSex === 'male' ? 1 : 6;
@@ -979,7 +996,7 @@ Object.defineProperties(setup, {
     },
     /* global Constellation */
     // eslint-disable-next-line no-unused-vars
-    /* global LibidoReinforcementA, GenderReversalA, AssetRobustnessA, ClothingRestrictionA, ShrunkenAssets, HairRemoval, PermaDye, FreckleSpeckle, KnifeEar, DizzyingHeights, IncreasedSensitivity, RefractoryRefactorization, LibidoReinforcementB, GenderReversalB, AssetRobustnessB, AgeReductionA, FluffyEars, FluffyTail, MaximumFluff, HeatRut, Lightweight, SexSwitcheroo, FutaFun, BlushingVirgin, SubmissivenessRectificationA, GenderReversalC, AssetRobustnessC, ClothingRestrictionB, PowerDom, Curse2020, ComicRelief, EqualOpportunity, AbsolutePregnancy, AbsoluteBirthControl, WackyWombs, Omnitool, Gooey, RainbowSwirl, DoublePepperoni, LiteralBlushingVirgin, LibidoReinforcementC, LactationRejuvenationA, AssetRobustnessD, AgeReductionB, SleepTight, SweetDreams, HypnoHappytime, CrossdressYourHeart, LieDetector, Megadontia, Softie, HardMode, LingualLeviathan, TippingTheScales, Reptail, ColdBlooded, LibidoReinforcementD, GenderReversalD, PleasureRespecificationA, ClothingRestrictionC, MassacreManicure, ドS, DoM, HijinksEnsue, FlowerPower, Cellulose, Chlorophyll, Pheromones, Carapacian, Hemospectrum, WrigglyAntennae, Eggxellent, SubmissivenessRectificationB, LactationRejuvenationB, PleasureRespecificationB, AgeReductionC, Horny, DrawingSpades, TattooTally, Leaky, WanderingHands, SemenDemon, Quota, InTheLimelight, LibidoReinforcementE, GenderReversalE, AssetRobustnessE, UrineReamplificationA, BarterSystem, SharedSpace, Weakling, RandomOrgasms, Beastly, CreatureOfTheNight, Minishish, Colossalable, LibidoReinforcementF, GenderReversalF, AssetRobustnessF, UrineReamplificationB, EyeOnThePrize, DeafeningSilence, TaciturnTurnaround, AmpuQtie, NoseGoes, ArmArmy, ALittleExtra, Null, Seafolk, TakenForGranite, DoubleTrouble, Conjoined, LibidoReinforcementG, GenderReversalG, AssetRobustnessG, Literalization, ConsentDissent, TheMaxim, AdversePossession, Erased, TicklyTentacles, Eyescream, AMouthful, BelowTheVeil, PrincessProtocol */
+    /* global LibidoReinforcementA, GenderReversalA, AssetRobustnessA, ClothingRestrictionA, ShrunkenAssets, HairRemoval, PermaDye, FreckleSpeckle, KnifeEar, DizzyingHeights, IncreasedSensitivity, RefractoryRefactorization, LibidoReinforcementB, GenderReversalB, AssetRobustnessB, AgeReductionA, FluffyEars, FluffyTail, MaximumFluff, HeatRut, Lightweight, SexSwitcheroo, FutaFun, BlushingVirgin, SubmissivenessRectificationA, GenderReversalC, AssetRobustnessC, ClothingRestrictionB, PowerDom, Curse2020, ComicRelief, EqualOpportunity, AbsolutePregnancy, AbsoluteBirthControl, WackyWombs, Omnitool, Gooey, RainbowSwirl, DoublePepperoni, LiteralBlushingVirgin, LibidoReinforcementC, LactationRejuvenationA, AssetRobustnessD, AgeReductionB, SleepTight, SweetDreams, HypnoHappytime, CrossdressYourHeart, LieDetector, Megadontia, Softie, HardMode, LingualLeviathan, TippingTheScales, Reptail, ColdBlooded, LibidoReinforcementD, GenderReversalD, PleasureRespecificationA, ClothingRestrictionC, MassacreManicure, DoS, DoM, HijinksEnsue, FlowerPower, Cellulose, Chlorophyll, Pheromones, Carapacian, Hemospectrum, WrigglyAntennae, Eggxellent, SubmissivenessRectificationB, LactationRejuvenationB, PleasureRespecificationB, AgeReductionC, Horny, DrawingSpades, TattooTally, Leaky, WanderingHands, SemenDemon, Quota, InTheLimelight, LibidoReinforcementE, GenderReversalE, AssetRobustnessE, UrineReamplificationA, BarterSystem, SharedSpace, Weakling, RandomOrgasms, Beastly, CreatureOfTheNight, Minishish, Colossalable, LibidoReinforcementF, GenderReversalF, AssetRobustnessF, UrineReamplificationB, EyeOnThePrize, DeafeningSilence, TaciturnTurnaround, AmpuQtie, NoseGoes, ArmArmy, ALittleExtra, Null, Seafolk, TakenForGranite, DoubleTrouble, Conjoined, LibidoReinforcementG, GenderReversalG, AssetRobustnessG, Literalization, ConsentDissent, TheMaxim, AdversePossession, Erased, TicklyTentacles, Eyescream, AMouthful, BelowTheVeil, PrincessProtocol */
     // eslint-disable-next-line no-unused-vars
     /* global NotGrowingReq, NotShrinkingReq, HasPenisReq, HasVaginaReq */
     getCurseSets: {
@@ -1134,7 +1151,7 @@ Clothing restriction C is there to people from hiding themselves.`),
                                       new LingualLeviathan(),
                                       new ColdBlooded(),
                                       new PleasureRespecificationA(),
-                                      new ドM(),
+                                      new DoM(),
                                       new Pheromones(),
                                       new Leaky(),
                                       new WanderingHands(),
@@ -1217,7 +1234,33 @@ All the curses that make them orgasm a lot, combined with Taken for Granite.
 A few extra explanations:
  - Tattoo Tally doesn't really serve a function, it just makes sense for a statue to be scribbled on.
  - The Maxim is genital-specific, so this constellation assumes the statue is female. Take Futa Fun or Sex Switcheroo first if that is not the case.`,
-                                  [new HasVaginaReq()])
+                                  [new HasVaginaReq()]),
+                new Constellation("Everyone's Wife",
+                                  [
+                                      new LibidoReinforcementA(),
+                                      new LibidoReinforcementB(),
+                                      new LibidoReinforcementC(),
+                                      new Lightweight(),
+                                      new BlushingVirgin(),
+                                      new SubmissivenessRectificationA(),
+                                      new EqualOpportunity(),
+                                      new LieDetector(),
+                                      new PleasureRespecificationA(),
+                                      new Quota(),
+                                      new Quota(),
+                                      new SemenDemon("sexual fluids"),
+                                      new SemenDemon("sexual fluids"),
+                                      new TattooTally(),
+                                      new CreatureOfTheNight(),
+                                      new Weakling(),
+                                      new HeatRut(),
+                                      new RefractoryRefactorization(),
+                                  ],
+                                  "You're destined to live a life reliant on others; Granted various needs, forbidden from fulfilling them yourself.\n" +
+                                  "You can live happily, perhaps even more happily than before, with the help of companions that care for you. Without loving companions, your life will fall into disarray when your desperate sexual exploits mark you permanently and you can't lie to excuse them.\n" +
+                                  "Your sex drive will reach unnatural levels, including bouts of going into heat! These needs can't be sated with autoerotic stimulation. During your deeds, you need more intimate fluids than a single person can supply and you need to bring your partners to completion an amount of times that would quickly become painful for a sole ordinary human.\n" +
+                                  "Along with intimacy, you have other new physical needs, you can't physically protect yourself, lift heavy things on your own or enter domiciles without direct permission. Most notably of these needs, is your need for a blood donor. Without the ability to ever overpower someone, use deceit to get it or purposely take a dominant role, you'll need someone else willingly looking out for this need or you'll be an outcast and starve within a week.\n" +
+                                  "Fortunately (If you're optimistic), this constellation refits your behaviour in a way that lends itself to maintaining these complex long term relationships. You're agreeable, but not agreeable to the point that a new third party could bully you into cheating, your intelligence and decision making faculties are still entirely yours. Your mouth and body will both always tell the truth, so you'll never get trapped in a lie of what you've been doing with who, so jealousy between partners will inherently be reassured. You'll love the intimacy regardless of your partners equipment, your partners will always have a sparkable attraction to you, you will naturally fit into the role of servicing others while each experience will always feel new no matter how many days go by.")
             ];
         }
     },
@@ -1420,8 +1463,7 @@ setup.displayPortraitImage = async function() {
     }
 };
 
-// Disable default autosave
-Config.saves.autosave = false;
+Config.saves.maxAutoSaves = 1;
 
 // Global variable to store the last known layer
 let _lastLayer = null;
@@ -1436,6 +1478,16 @@ function layerChanged() {
     return false;
 }
 
+Config.saves.isAllowed = function (saveType) {
+	if (saveType === Save.Type.Auto) {
+        if (layerChanged()) {
+            return true;
+        }
+        return false;
+	}
+	return true;
+};
+
 function getSaveLabel() {
     let currentLayer = State.getVar("$currentLayer");
     if (currentLayer === 0) return "Surface";
@@ -1444,14 +1496,6 @@ function getSaveLabel() {
     if (currentLayer === 12) return "Surface?";
     return "Layer " + currentLayer;
 }
-
-// Trigger the save when the layer changes
-$(document).on(':passageend', function () {
-    if (layerChanged()) {
-        let saveLabel = getSaveLabel();
-        Save.autosave.save(saveLabel);
-    }
-});
 
 Macro.add('sidebar-widget', {
     handler: function() {
@@ -1469,6 +1513,10 @@ Macro.add('sidebar-widget', {
         const forageFood = State.variables.forageFood || false;
         const forageWater = State.variables.forageWater || false;
 
+        if (tags().includes("titleScreen")) {
+            $('.twine-sidebar').remove();
+            return;
+        }
         $('.twine-sidebar').remove();
 
         function getLayerName() {
@@ -1556,7 +1604,7 @@ Macro.add('sidebar-widget', {
                     threats.push({name: "Fell Dragon", time: State.variables.timeL6T2 || 0, max: 8});
                     threats.push({name: "Greater Tentacle Beast", time: State.variables.timeL6T1 || 0, max: 15});
                     break;
-                case 7:
+                case 7: {
                     let debtThreat;
                     if (State.variables.dubloons > 299) {
                         debtThreat = 2; // 20% of max 10
@@ -1570,6 +1618,7 @@ Macro.add('sidebar-widget', {
                     threats.push({name: "Debt Collection", time: debtThreat, max: 10});
                     threats.push({name: "Rehabilitation", time: State.variables.timeL7T2, max: 6});
                     break;
+                }
                 case 8:
                     threats.push({name: "Inanis Ego", time: State.variables.timeL8T1 || 0, max: 60});
                     threats.push({name: "Demential Aberrations", time: State.variables.timeL8T2a || 0, max: State.variables.hiredCompanions.some(e => e.id === setup.companionIds.maru) ? 8 : 7});
@@ -1899,23 +1948,19 @@ function getGenderColor(gender) {
 }
 
 window.goBackToPassage = function(passageName) {
-    var history = SugarCube.State.history;
-    var currentIndex = history.length - 1; // Use history length to get current index
+    let history = SugarCube.State.history;
+    let currentIndex = history.length - 1; // Use history length to get current index
 
     // Normalize the target passage name
-    var targetName = passageName.trim().toLowerCase();
-
-    for (var i = history.length - 1; i >= 0; i--) {
-        var momentTitle = history[i].title.trim().toLowerCase();
-    }
+    let targetName = passageName.trim().toLowerCase();
 
     // Search for the passage in history
-    for (var i = currentIndex - 1; i >= 0; i--) {
-        var moment = history[i];
-        var momentTitle = moment.title.trim().toLowerCase();
+    for (let i = currentIndex - 1; i >= 0; i--) {
+        let moment = history[i];
+        let momentTitle = moment.title.trim().toLowerCase();
 
         if (momentTitle === targetName) {
-            var delta = i - currentIndex;
+            let delta = i - currentIndex;
             SugarCube.Engine.go(delta);
             return;
         }
@@ -1952,4 +1997,194 @@ Macro.add('LinkButton', {
     }
 });
 
+Config.saves.descriptions = function (saveType) {
+    let currentLayer = State.getVar("$currentLayer");
+    if (currentLayer === 0) return "Surface";
+    if (currentLayer === 10) return "Nadir";
+    if (currentLayer === 11) return "???";
+    if (currentLayer === 12) return "Surface?";
+    return "Layer " + currentLayer;
+};
 
+window.updateSaveCount = function() {
+    if (Save.browser && Save.browser.size > 1) {
+        State.variables.multipleSaves = true;
+    } else {
+        State.variables.multipleSaves = false;
+    }
+};
+
+
+// Global variables to control the animation
+window.windAnimationActive = false;
+window.windParticles = [];
+window.windAnimationInterval = null;
+
+// Function to create a single wind particle
+function createWindParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'wind-particle';
+    const size = Math.random() * 50 + 25;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+
+    // Set particle position and z-index to be behind other content
+    particle.style.zIndex = '-1';
+
+    document.body.appendChild(particle);
+
+    const duration = 5000 + Math.random() * 5000;
+    const curveStrength = - (Math.random() * 100 + 50); // Negative value to move upwards
+    const distance = Math.random() * 300 + 200;
+
+    const keyframes = [
+        { transform: 'translate(0, 0) scale(0)', opacity: 0 },
+        { transform: `translate(${distance/4}px, ${curveStrength/2}px) scale(1)`, opacity: 0.7, offset: 0.25 },
+        { transform: `translate(${distance/2}px, ${curveStrength}px) scale(0.8)`, opacity: 0.5, offset: 0.5 },
+        { transform: `translate(${distance*0.75}px, ${curveStrength/2}px) scale(0.6)`, opacity: 0.3, offset: 0.75 },
+        { transform: `translate(${distance}px, 0) scale(0)`, opacity: 0 }
+    ];
+
+    const animation = particle.animate(keyframes, {
+        duration: duration,
+        easing: 'ease-in-out'
+    });
+
+    animation.onfinish = () => {
+        particle.remove();
+        if (windAnimationActive) {
+            createWindParticle();
+        }
+    };
+
+    window.windParticles.push(particle);
+}
+
+// Function to start the wind animation
+window.startWindAnimation = function() {
+    if (!window.windAnimationActive) {
+        window.windAnimationActive = true;
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createWindParticle, Math.random() * 5000);
+        }
+    }
+};
+
+// Function to stop the wind animation and clean up
+window.stopWindAnimation = function() {
+    window.windAnimationActive = false;
+    window.windParticles.forEach(particle => {
+        particle.remove();
+    });
+    window.windParticles = [];
+    if (window.windAnimationInterval) {
+        clearInterval(window.windAnimationInterval);
+        window.windAnimationInterval = null;
+    }
+};
+
+
+$(document).on(':passagestart', function(ev) {
+    if (tags().includes("titleScreen")) {
+        startWindAnimation();
+    } else {
+        stopWindAnimation();
+    }
+});
+
+/* Initialize current section */
+var currentSection = 0; // Start at the first section
+
+/* Function to navigate to a specific section */
+function goToSection(sectionNumber) {
+    currentSection = sectionNumber;
+    var translateYValue = -100 * sectionNumber + 'vh';
+    $('#container').css('transform', 'translateY(' + translateYValue + ')');
+    var backgroundPositionY = 50 * sectionNumber + '%';
+    $('body').css('background-position', 'center ' + backgroundPositionY);
+}
+
+/* Wait for the document to be ready */
+$(document).on('click', '#newGameBtn', function() {
+    goToSection(1); // Move to Section 2
+});
+
+$(document).on('click', '#nextBtn', function() {
+    goToSection(2); // Move to Section 3
+});
+
+$(document).on('click', '#easyBtn', function() {
+    goToSection(2); // Move to Section 3
+    State.variables.difficultyMode = 0;
+});
+
+$(document).on('click', '#normalBtn', function() {
+    goToSection(2); // Move to Section 3
+    State.variables.difficultyMode = 1;
+});
+
+$(document).on('click', '#advancedBtn', function() {
+    goToSection(2); // Move to Section 3
+    State.variables.difficultyMode = 2;
+});
+
+$(document).on('click', '#backBtn1', function() {
+    goToSection(0); // Back to Section 1
+});
+
+$(document).on('click', '#backBtn2', function() {
+    goToSection(1); // Back to Section 2
+});
+
+const shiftProbability = 0.05;
+const tiltProbability = 0.05;
+
+function applyButtonEffects() {
+  if (tags().includes("layer8")) {
+    $('.dark-btn').each(function() {
+      // Reset classes
+      $(this).removeClass('shift-left shift-right shift-up shift-down tilt-left tilt-right');
+
+      // Apply shift effect
+      if (Math.random() < shiftProbability) {
+        const shiftDirections = ['shift-left', 'shift-right', 'shift-up', 'shift-down'];
+        const randomShift = shiftDirections[Math.floor(Math.random() * shiftDirections.length)];
+        $(this).addClass(randomShift);
+      }
+
+      // Apply tilt effect
+      if (Math.random() < tiltProbability) {
+        const tiltDirections = ['tilt-left', 'tilt-right'];
+        const randomTilt = tiltDirections[Math.floor(Math.random() * tiltDirections.length)];
+        $(this).addClass(randomTilt);
+      }
+    });
+  }
+}
+
+const textSizeChangeProbability = 0.05;
+
+// Function to apply text size variation
+function applyTextSizeVariation() {
+    if (tags().includes("layer8")) {
+        // Remove any existing text size classes
+        $('body').removeClass('text-small text-large');
+
+        // Apply text size variation
+        if (Math.random() < textSizeChangeProbability) {
+            if (Math.random() < 0.5) {
+                $('body').addClass('text-small');
+            } else {
+                $('body').addClass('text-large');
+            }
+        }
+    }
+}
+
+// Apply layer 8 effects on passage start
+$(document).on(':passagerender', function(ev) {
+  setTimeout(applyButtonEffects, 100);
+  setTimeout(applyTextSizeVariation, 100);
+});

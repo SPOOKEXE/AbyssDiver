@@ -79,7 +79,8 @@ The Abyss has various bioluminescent moss, mushrooms, and so on scattered about,
 <<if !isPlaying("layer3")>>
 	<<masteraudio stop>><<audio "layer3" volume 0.2 play loop>>
 <</if>>
-What do you want to do while you're here?<br><br>
+What do you want to do while you're here?<br>
+<br>
 <div class="options-container">
   <div>
     <div class="category-header">Organization</div>
@@ -190,8 +191,18 @@ What do you want to do while you're here?<br><br>
 <p><button class="dark-btn obsidian" data-passage="Layer3 Hub">Return to exploring the rest of the layer</button></p>
 
 <<ForagingGrid setup.crystallineConfectionaries setup.undergroundRivers>>
-<p><button class="dark-btn obsidian" data-passage="Layer3 Forage" data-setter="$mc.events.push(new AgeEvent("Crystalline Confectionery Major", {years: 1}));$foodL3 += 1">Consume food from unsafe crystals</button><br>
-<<if $abyssKnow>><button class="dark-btn obsidian" data-passage="Layer3 Forage" data-setter="$mc.events.push(new AgeEvent("Crystalline Confectionery Minor", {months: 1}));$foodL3 += 1">Consume food from safe crystals</button><</if>></p>
+<p><<button "Consume food from unsafe crystals">>
+    <<set $mc.events.push(new AgeEvent("Crystalline Confectionery Major", {years: 1}))>>
+    <<set $foodL3 += 1>>
+    <<goto "Layer3 Forage">>
+<</button>><br>
+<<if $abyssKnow>>
+    <<button "Consume food from safe crystals">>
+        <<set $mc.events.push(new AgeEvent("Crystalline Confectionery Minor", {months: 1}))>>
+        <<set $foodL3 += 1>>
+        <<goto "Layer3 Forage">>
+    <</button>>
+<</if>></p>
 
 <<if $atWaterSource>>
 	<p>You can also wait at the underground river if you'd like to pass the time while waiting for something.<br>
@@ -474,13 +485,13 @@ Which Curse would you like to transfer to your willing companion? It can't be to
 				<<if _companion === $companionBandit>><<set _tempName = "Bandit">><</if>>
 				<<capture _companion _curse _tempName>>
 					&nbsp; _curse.name
-					<<LinkButton "Choose" "Layer3 Skewed1a" "dark-btn obsidian">>
+					<<button "Choose">>
 						<<set _companion.addCurse(_curse.copy())>>
-
 						<<RemoveCurse _curse>>
 						<<set $dubloons -= ($skewedUsed * 5)>>
 						<<set $skewedUsed += 1>>
-					<</LinkButton>><br>
+						<<goto "Layer3 Skewed1a">>
+					<</button>><br>
 				<</capture>>
 			<</if>>
 		<</for>>
@@ -1009,7 +1020,7 @@ The magic of the shrine wisps through the air menacingly as your victim struggle
 		<<if _companion === $companionBandit>><<set _tempName = "Bandit">><</if>>
 		<<capture _companion _i _tempName>>
 			<<set _choiceText = "Transfer to " + _tempName>>
-			<<LinkButton _choiceText "Layer3 Skewed Apply" "dark-btn obsidian">>
+			<<button _choiceText>>
 				<<set _companion.addCurse(_curse.copy())>>
 
 				<<RemoveCurse _curse>>
@@ -1017,7 +1028,8 @@ The magic of the shrine wisps through the air menacingly as your victim struggle
 				<<set $skewedUsed += 1>>
 
 				<<set $temp2 = _i>>
-			<</LinkButton>><br>
+				<<goto "Layer3 Skewed Apply">>
+			<</button>><br>
 		<</capture>>
 	<</if>>
 <</for>>
@@ -1608,7 +1620,7 @@ Threats:
 
 [img[setup.ImagePath+'Clipped-Fin/Abyss Diver Page 4-threats.png']]
 
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
+<button class="dark-btn obsidian" onclick="SugarCube.Engine.backward()">Back</button>
 
 :: Layer3 Camp
 
@@ -1664,7 +1676,7 @@ How do you want to deal with the tentacle beast moving in on you?
 <</if>>
 <<if $items[13].count > 0 && $items[20].count >= (Math.max(11 - (2 *$bullRed), 1))>>
 	Due to its amorphous nature, it will take <<print (Math.max(11 - (2 *$bullRed), 1))>> bullets to take down the monster.<br>
-	[[Shoot it with your pistol|$returnPassage][$items[20].count -= (Math.max(11 - (2 *$bullRed), 1)); $smaragdineThreatsDefeated.tentacleLesser = true]]<br><br>
+	<button class="dark-btn obsidian" data-passage="$returnPassage" data-setter="$items[20].count -= (Math.max(11 - (2 *$bullRed), 1)); $smaragdineThreatsDefeated.tentacleLesser = true">Shoot it with your pistol</button><br><br>
 <</if>>
 <<if $mechaBoarded>>
 	From the safe cockpit of your Starlit Conquest, the tentacle monster seems more like an insect than a serious threat.<br>
@@ -1818,8 +1830,6 @@ Despite the repulsive nature of the creature, your body betrays you, responding 
 The lesser tentacle beast seems to feed on your reactions, its movements growing bolder and more insistent. Its tendrils slide deeper, probing and filling your quivering pussy in ways you never thought possible. The world narrows to the relentless invasion of your body, your mind consumed by the overwhelming sensations and the knowledge that you have willingly submitted to this creature of the Abyss.
 
 The encounter seems to stretch on for an eternity, leaving you trembling and spent, your body marked by the beast's attention. When it finally releases you, the lingering effects of its touch make it difficult to stand, let alone continue your journey. You know that the consequences of your decision will be felt for days to come, as you and your companions struggle to recover from the intense, humiliating experience.
-
-But even as you gather yourself and prepare to press onward, you can't help but wonder if the memory of the lesser tentacle beast's touch will haunt you long after you've left the dark depths of the Abyss behind.
 
 But even as you gather yourself and prepare to press onward, you can't help but wonder if the memory of the lesser tentacle beast's touch will haunt you long after you've left the dark depths of the Abyss behind.
 <<elseif $variation === 0>>\

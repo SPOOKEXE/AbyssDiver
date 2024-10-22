@@ -616,7 +616,7 @@ The Relic you're looking for is in the deeper parts of the layer. The rain from 
 
 You walk alongside a couple ponds, pushing your way through reeds, and eventually you come to a steaming pool with clear, pristine water. You dip a finger into it, and the water isn't hot, just warmer than the surrounding air. You peer into the depths of the pool, and can make out a few stones clumped together in a crevice at the bottom that look out of place.
 
-You glance around for a few minutes then sigh, and dive into the steaming pond. It actually feels pretty nice, and the water isn't more than 2 meters deep. You swim down to those rocks in the crevice, and start fishing them out, one at a time. Each one you grab starts out slightly hot to the touch, but as you pull it away from its companions it rapidly cools. When you set the first one on the bank, it's not as cold as holding a lump of ice, but the contrast between the cold stone and the warm water in the pool is striking. By the time you reach the last one, it's already cold, and you can feel the water in the pool starting to cool off.
+You glance around for a few minutes then sigh, and dive into the steaming pond. It actually feels pretty nice, and the water isn't more than 2 meters deep. You swim down to those rocks in the crevice, and start fishing them out, one at a time. Each one you grab starts out slightly hot to the touch and glowing a warm orange, but as you pull it away from its companions it rapidly cools, its glow shifting to a soft cool blue. When you set the first one on the bank, it's not as cold as holding a lump of ice, but the contrast between the cold stone and the warm water in the pool is striking. By the time you reach the last one, it's already cold and glowing blue, and you can feel the water in the pool starting to cool off.
 
 Somewhere along the way with all those dives, you lost some corruption points, but now you've got 5 Rømer Stones, which are pretty nifty and likely practical in hot and cold environments. You look back sadly at the small pond that's no longer steaming near as much as it was. You feel like you've destroyed a small natural wonder of the Abyss, but you promise yourself that you'll put the stones to good use.
 
@@ -1383,7 +1383,7 @@ How are you going to deal with the bandits encircling you?<br><br>
 	<</if>>
 	<<if $items[13].count > 0 && $items[20].count > 2>>
 		These bandits have gravely underestimated you. Prepared for the perils of the Abyss, you are not one to be trifled with. Show them that you have a real weapon, and they'll think twice about their decision.<br>
-		[[Fire 2 warning shots with your pistol to scare them off|Layer1 Hub][$items[20].count -= 2; $smaragdineThreatsDefeated.bandits = true]]<br><br>
+		<button class="dark-btn obsidian" data-passage="Layer1 Hub" data-setter="$items[20].count -= 2; $smaragdineThreatsDefeated.bandits = true">Fire 2 warning shots with your pistol to scare them off</button><br><br>
 	<</if>>
 	<<if $slingshot === 1>>
 		Use the power of the Brave Vector and frighten away the bandits. If they hear a few pebbles crashing into the ground with the force of a bullet, they won't want to get any closer.<br>
@@ -1925,7 +1925,7 @@ Threats:
 
 [img[setup.ImagePath+'Clipped-Fin/Abyss Diver Page 2-threats.png']]
 
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
+<button class="dark-btn obsidian" onclick="SugarCube.Engine.backward()">Back</button>
 
 
 :: DollEnd 

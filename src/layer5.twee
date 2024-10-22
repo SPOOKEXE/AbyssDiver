@@ -377,7 +377,7 @@ Every Relic in this layer is found in one of the many ruins that are carved into
 <<set _corrStyle = _corr > _relic.corr ? "@@color:red;" : _corr < _relic.corr ? "@@color:green;" : "">>
 <<set _timeStyle = _time > _relic.time ? "@@color:red;" : _time < _relic.time ? "@@color:green;" : "">>
 [img[setup.ImagePath + _relic.pic]]
-<h2>_name <<if setup.functionalRelics.contains(_name)>> ☸<</if>></h2>
+<h2>_name <<if setup.functionalRelics.includes(_name)>> ☸<</if>></h2>
 <p class="cost">
 	<<if _corr !== _relic.corr || _time !== _relic.time>><s>
 		<<if _relic.corr > 0 || _relic.time > 0>>Cost:<<else>>@@color:green;Free!@@<</if>>
@@ -773,8 +773,14 @@ You have successfully taken the $relic54.name Relic. Hopefully you can make good
 
 <b>The Everhevea can be used as 2 flasks for as long as you hold it, so at the very least you have gained some additional water storage. This is represented by adding 2 flasks to your inventory as you pick up the Everhevea.</b>
 
-[[Continue searching for the Relics of layer 5|Layer5 Relics][$items[2].count+=2]]
-[[Continue exploring the fifth layer|Layer5 Hub][$items[2].count+=2]]
+<<nobr>>
+    <div class="menu-item">
+        <button class="dark-btn obsidian" data-passage="Layer5 Relics" data-setter="$items[2].count+=2">Continue searching for the Relics of layer 5</button>
+    </div>
+    <div class="menu-item">
+        <button class="dark-btn obsidian" data-passage="Layer5 Hub" data-setter="$items[2].count+=2">Continue exploring the fifth layer</button>
+    </div>
+<</nobr>>
 <</if>>
 
 
@@ -1025,8 +1031,8 @@ Your thoughts race as you try to wrap your head around the implications of this 
 <</nobr>>
 
 
-:: Take on ドS [layer5]
-<<set _curse = new ドS()>>\
+:: Take on DoS [layer5]
+<<set _curse = new DoS()>>\
 <<set $mc.addCurse(_curse)>><<set $corruption += _curse.corr>>\
 [img[setup.ImagePath + _curse.pic]]
 
@@ -1064,8 +1070,8 @@ This may impact how your sexual encounters and conversations with your companion
 <</nobr>>
 
 
-:: Take on ドM [layer5]
-<<set _curse = new ドM()>>\
+:: Take on DoM [layer5]
+<<set _curse = new DoM()>>\
 <<set $mc.addCurse(_curse)>><<set $corruption += _curse.corr>>\
 [img[setup.ImagePath + _curse.pic]]
 
@@ -1856,7 +1862,7 @@ Threats:
 
 [img[setup.ImagePath+'Clipped-Fin/Abyss Diver Page 6-threats.png']]
 
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
+<button class="dark-btn obsidian" onclick="SugarCube.Engine.backward()">Back</button>
 
 :: Layer5 Camp
 
@@ -1949,15 +1955,16 @@ In your inventory you have:
 	<br>$flaskMatrix[_temp] <<print setup.flaskLabels[_temp]>> remaining 
 		
 	<<capture _temp>>
-		<<LinkButton "Drop" "Layer5 Borer Drop Count" "dark-btn obsidian">>
+		<<button "Drop">>
 			<<set $flaskBorerID = _temp>>
-		<</LinkButton>>
+			<<goto "Layer5 Borer Drop Count">>
+		<</button>>
 	<</capture>>
 	
 	<<if $flaskMatrix[_temp]>= $waterDropNb || setup.flaskLabels[_temp] === 'Aquarius Ex Nihilo'>> 
 		 | 
 		<<capture _temp>>
-			<<LinkButton "Drop <<print $waterDropNb>> water" "Layer5 Borer Water" "dark-btn obsidian">>
+			<<button 'Drop @$waterDropNb water'>>
 				<<if $items[3].count > 0 || $items[0].count > 0 || $ownedRelics.some(r => r.name === 'Aquarius Ex Nihilo')>>
 					<<if (setup.flaskLabels[_temp]==="Bottled water" || $items[3].count <= 0) && setup.flaskLabels[_temp] !== 'Aquarius Ex Nihilo'>>
 						<<set $items[0].count -= $waterDropNb >>
@@ -1969,7 +1976,8 @@ In your inventory you have:
 				<<else>>
 					<<set $items[0].count -= $waterDropNb >>
 				<</if>>
-			<</LinkButton>>
+				<<goto "Layer5 Borer Water">>
+			<</button>>
 		<</capture>>
 	<</if>>
 <</for>>

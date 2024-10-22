@@ -1449,7 +1449,7 @@ Around you, the aquatic world carries on undisturbed. The light from the shaft a
 		<<for _i, _relic range $ownedRelics>>
 			<<capture _i>>
 				<<if !$temp_list.some(r => r === _relic.name)>>
-					&nbsp; [[_relic.name|Elder attempt][$temp_list.push($ownedRelics[_i].name)]]<br>
+					&nbsp; <button class="dark-btn obsidian" data-passage="Elder attempt" data-setter="$temp_list.push($ownedRelics[_i].name)">_relic.name</button><br>
 				<</if>>
 			<</capture>>
 		<</for>>
@@ -1736,7 +1736,7 @@ Threats:
 
 [img[setup.ImagePath+'Clipped-Fin/Abyss Diver Page 10-threats.png']]
 
-<button class="dark-btn obsidian" onclick="SugarCube.State.backward()">Back</button>
+<button class="dark-btn obsidian" onclick="SugarCube.Engine.backward()">Back</button>
 
 :: Layer9 Travel Events [layer9 nobr]
 <<set _triggers = {

@@ -1669,7 +1669,7 @@ window.LibidoReinforcementD = LibidoReinforcementD
 setup.curseArray.push(LibidoReinforcementD)
 
 class GenderReversalD extends Curse {
-	static corruption = 15;
+	static corruption = 35;
 	static curseName = 'Gender Reversal D';
 	static description = `Gives one level of the Gender Reversal Curse, causing your body's apparent gender to gradually change. The grass is always greener, right?`;
 	static descriptionMitigated = `Gives one level of the Gender Reversal Curse, causing your body's apparent gender to gradually change. The grass is always greener, right?\n\nThanks to the effects of the Shifting Obelisk you can choose how to distribute these changes, opting e.g. for a more masculine body shapes but a more feminine voice or vice versa. On average your apparent gender must still match the curse level. Also makes it more natural for you to act in ways befitting your new gender. At levels above 5, the curse will make your personality more masculine/feminine, but following your ideal notion of masculinity or femininity rather than the most stereotypical.`;
@@ -1763,7 +1763,7 @@ State.variables.curse61 = setup.allCurses.MassacreManicure
 window.MassacreManicure = MassacreManicure
 setup.curseArray.push(MassacreManicure)
 
-class ドS extends Curse {
+class DoS extends Curse {
 	static corruption = 50;
 	static curseName = 'ドS';
 	static description = `Causes you to feel pleasure when inflicting others with pain, but numbs feelings of physical pleasure from other sources somewhat.`;
@@ -1771,7 +1771,7 @@ class ドS extends Curse {
 	static picture = 'Curses/dos.png';
 	static type = 'libido';
 	constructor() {
-		super('ドS', 'libido',
+		super('DoS', 'libido',
 		      'You feel pleasure when inflicting pain on others, though other sources of pleasure are somewhat dulled. ');
 	}
 
@@ -1779,12 +1779,12 @@ class ドS extends Curse {
 		return prevSubDom - 1;
 	}
 }
-setup.allCurses.ドS = new ドS()
-State.variables.curse62 = setup.allCurses.ドS
-window.ドS = ドS
-setup.curseArray.push(ドS)
+setup.allCurses.DoS = new DoS()
+State.variables.curse62 = setup.allCurses.DoS
+window.DoS = DoS
+setup.curseArray.push(DoS)
 
-class ドM extends Curse {
+class DoM extends Curse {
 	static corruption = 45;
 	static curseName = 'ドM';
 	static description = `Converts all pain you receive into pleasure, but in return, dulls normal feelings of physical pleasure a bit. With both ドS and ドM, you will cease to feel pleasure entirely except when inflicting or receiving pain.`;
@@ -1792,7 +1792,7 @@ class ドM extends Curse {
 	static picture = 'Curses/dom.png';
 	static type = 'libido';
 	constructor() {
-		super('ドM', 'libido',
+		super('DoM', 'libido',
 		      'All pain you feel is converted into pleasure, though other sources of pleasure are somewhat dulled. ');
 	}
 
@@ -1800,10 +1800,10 @@ class ドM extends Curse {
 		return prevSubDom + 1;
 	}
 }
-setup.allCurses.ドM = new ドM()
-State.variables.curse63 = setup.allCurses.ドM
-window.ドM = ドM
-setup.curseArray.push(ドM)
+setup.allCurses.DoM = new DoM()
+State.variables.curse63 = setup.allCurses.DoM
+window.DoM = DoM
+setup.curseArray.push(DoM)
 
 class HijinksEnsue extends Curse {
 	static corruption = 40;
@@ -2472,8 +2472,8 @@ class UrineReamplificationA extends Curse {
 	static iswatersports = true;
 	static corruption = 55;
 	static curseName = 'Urine Reamplification A';
-	static description = `Significantly reduces your bladder capacity. Though annoying, this shouldn't be too dangerous so long as you're careful. Urine Reamplification Curses also prevent the Event Horizon Relic from taking care of your pee for you.`;
-	static descriptionMitigated = `Significantly reduces your bladder capacity. Though annoying, this shouldn't be too dangerous so long as you're careful. Urine Reamplification Curses also prevent the Event Horizon Relic from taking care of your pee for you.\n\nThanks to the effects of the Shifting Obelisk, your pee becomes odorless and evaporates more quickly.`;
+	static description = `Significantly reduces your bladder capacity. Though annoying, this shouldn't be too dangerous so long as you're careful. Urine Reamplification Curses also prevent the Event Horizon Relic from taking care of your pee for you. You may want to avoid this Curse if you don't want to have any embarrassing accidents.`;
+	static descriptionMitigated = `Significantly reduces your bladder capacity. Though annoying, this shouldn't be too dangerous so long as you're careful. Urine Reamplification Curses also prevent the Event Horizon Relic from taking care of your pee for you. You may want to avoid this Curse if you don't want to have any embarrassing accidents.\n\nThanks to the effects of the Shifting Obelisk, your pee becomes odorless and evaporates more quickly.`;
 	static picture = 'Curses/urinereamplificationA.png';
 	static type = 'none';
 	constructor() {
